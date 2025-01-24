@@ -172,3 +172,6 @@ cython_debug/
 *.dat
 *submit
 *multiprocess
+*xml
+*.xml
+*__pycache__
