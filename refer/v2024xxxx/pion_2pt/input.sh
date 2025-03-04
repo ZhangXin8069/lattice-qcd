@@ -13,6 +13,5 @@ eigen_dir /public/group/lqcd/eigensystem/beta6.41_mu-0.2295_ms-0.2050_L32x96/$1
 VdV_dir /public/group/lqcd/eigensystem/beta6.41_mu-0.2295_ms-0.2050_L32x96/$1/VdV
 corr_pion_dir ./result
 EOF
-
 #/public/group/lqcd/liuming/LapH/data/perambulators/
 # /public/group/lqcd/perambulators/beta6.41_mu-0.2295_ms-0.2050_L32x96/light/$1

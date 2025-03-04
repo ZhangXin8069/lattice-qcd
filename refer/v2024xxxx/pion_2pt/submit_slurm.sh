@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=pi=CONF=
 #SBATCH --partition=gpu-debug
 #SBATCH --output=lap.=CONF=.out
@@ -9,12 +8,10 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --time=30:00
 #SBATCH --gres=gpu:1
-
 # conda deactivate
 # module load cuda/11.4.4-gcc-10.3.0
 # conda activate cupy114
 source /public/home/zhangxin/env.sh
-
 run_dir=.
 input_dir=${run_dir}
 exe=/public/home/xinghy/distillation_contract_example/cupy_contract_code/contrac_meson_cupy.py

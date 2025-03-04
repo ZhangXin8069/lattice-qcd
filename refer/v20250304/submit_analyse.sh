@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=analyse
 ##SBATCH --partition=gpu-debug
 #SBATCH --partition=cpu6248R,cpueicc
@@ -8,9 +7,6 @@
 #SBATCH --nodes=1
 #SBATCH -n 2
 ##SBATCH --cpus-per-task=2
-
-
-
 input_file=./analyse_input.sh
 exe=/public/home/sush/3pt_distillation/analyse/analyse.py
 output_file=./analyse.log
@@ -23,6 +19,5 @@ if [ ${num_quark} -eq 3 ];then
 fi
 echo "analyse job starts at" `date` > ${output_file}
 python -u $exe ${input_file} >> ${output_file} 2>&1
-
 # chake the data which is not exist 
 # for i in {10000..17500..50}; do if [ -f corr_uud_plus_Px0Py0Pz0_conf${i}_2pt.dat ];then continue; else echo $i; fi; done

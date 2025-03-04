@@ -1,12 +1,9 @@
 import math
 import numpy as np
-
 # read in the initial data
-
 # JackknifeJackknife: 
 # 样本平均值是固定的，缩小样本的大小，减小方差；
 # 但是不适用于样本量比较小的情况，会导致数据分析出现偏差；并且不适用于非线性的分析
-
 def Jackknife(data:np.ndarray, name:str='analysed', analyse:bool=False) -> dict:
     N0 = data.shape[-2]
     N1 = data.shape[-1]
@@ -20,7 +17,6 @@ def Jackknife(data:np.ndarray, name:str='analysed', analyse:bool=False) -> dict:
     shape_cov[-2] = shape_cov[-1]
     
     N_sum = int(np.prod(shape[:-2]))
-
     data.reshape(N_sum, N0, N1)
     data_cov = np.zeros((N_sum, N1, N1))
     
@@ -37,7 +33,6 @@ def Jackknife(data:np.ndarray, name:str='analysed', analyse:bool=False) -> dict:
         data_analyse[f'{name}_cov'] = data_cov.reshape(shape_cov)
         
     return data_analyse
-
 #Bootstrap: 随机抽取N次原样本中的M个数据，
 def Bootstrap(data:np.ndarray, N:int = 0, M:int = 0, name:str='analysed', analyse:bool=False) -> dict:
     N0 = data.shape[-2]
@@ -63,14 +58,12 @@ def Bootstrap(data:np.ndarray, N:int = 0, M:int = 0, name:str='analysed', analys
     shape_cov[-2] = shape_cov[-1]
     
     N_sum = int(np.prod(shape[:-2]))
-
     data.reshape(N_sum, N0, N1)
     data_cov = np.zeros((N_sum, N1, N1))
     
     accept_ratio = M / N0
     data_sample = np.zeros((N_sum, N, N1))
     data_analyse = {}
-
     for i in range(N):
         random_array = np.random.random((N0))
         while ((random_array - accept_ratio) < 0).all():
@@ -86,13 +79,10 @@ def Bootstrap(data:np.ndarray, N:int = 0, M:int = 0, name:str='analysed', analys
         for j in range(N_sum):
             data_cov[j] = np.cov(data_sample[j].T)   
         data_analyse[f'{name}_cov'] = data_cov.reshape(shape_cov)
-
     return data_analyse
-
 def link_analyse(data_2pt:dict, data_3pt:dict, analyse_type:str='Jackknife') -> dict:
     link_max = data_3pt['link_max']
     tsep = data_3pt['tsep']
-
     C2pt = data_2pt['init'][:, tsep]
     C3pt = data_3pt['init']
         
@@ -112,12 +102,9 @@ def link_analyse(data_2pt:dict, data_3pt:dict, analyse_type:str='Jackknife') -> 
 data_2pt = {}
 data_2pt['N0'] = 38
 data_2pt['Nt'] = 12 
-
 data_2pt['init'] = np.zeros((data_2pt['N0'], data_2pt['Nt']), dtype=float)
-
 for conf in range(data_2pt['N0']): # _link_max{data_2pt['link_max']}
     data_2pt['init'][conf] = np.sum((np.load(f"/public/home/huaj/School_2024/result/proton_2pt_{conf * 1000 + 10000}.npy").real), axis=0)[:data_2pt['Nt']]
-
 data_3pt = {}
 data_3pt['N0'] = 38
 data_3pt['Nt'] = 10
@@ -125,21 +112,16 @@ data_3pt['link_max'] = 0
 data_3pt['tsep'] = [6, 7, 8, 9]
 data = data_3pt.copy()
 data_3pt['init'] = np.zeros((2 * data_3pt['link_max'] + 1, len(data_3pt['tsep']), data_3pt['N0'], data_3pt['Nt']), dtype=float)
-
 for conf in range(data_3pt['N0']): # _link_max{data_3pt['link_max']}
     for tsep in range(len(data_3pt['tsep'])):
         data_3pt['init'][:, tsep, conf] = (
             np.sum((np.load(f"/public/home/huaj/School_2024/result/protonA_seq{data_3pt['tsep'][tsep]}_{conf * 1000 + 10000}.npy").real),axis=0)[:data_3pt['Nt']]
             # - np. sum((np.load(f"/public/home/huaj/School_2024/result/protonV_seq{data_3pt['tsep'][tsep]}_{conf * 1000 + 10000}.npy").real),axis=0)[:data_3pt['Nt']]
             )
-
 # print(data_3pt['init'][0, :, 0, :])
 # print(data_2pt['init'][0, data_3pt['tsep']])
 data.update(link_analyse(data_2pt=data_2pt, data_3pt=data_3pt, analyse_type='Jackknife'))
-
-
 import matplotlib.pyplot as plt
-
 plt.rcParams.update({'font.size':25})
 fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
 fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
@@ -156,7 +138,6 @@ ax.errorbar(np.arange(data['Nt'])[1:data_3pt['tsep'][3]] - 4.5, data['link_mean'
             fmt = '.', alpha=0.5, capsize=3.5, capthick=1.5, label='sep=9', linestyle='none', elinewidth=2) # fmt = 'bs'
 plt.legend()
 plt.show
-
 import lsqfit
 import gvar as gv
 # data.update(Bootstrap(data['init'], N=1000, M = 30, corr_type=''))
@@ -169,33 +150,26 @@ for i in range(len(data['tsep'])):
     ini_prr = {'C0': '0.4(1000)', 'C1':'0.5(1000)', 'C2':'0.18(30)' }
     # fit_all = np.zeros((data_n, fit_n),dtype=classmethod)
     fit_parameter = np.zeros(3,dtype=float)
-
     def ft_mdls(t_dctnry, p):
         mdls = {}
         ts = t_dctnry['C3pt']
         mdls['C3pt'] = (p['C0'] * (1 + p['C1'] * (np.exp(- p['C2'] * ts) +  np.exp(- p['C2'] * (tsep[i] - ts)))))
         # mdls['C3pt'] = (p['C0'] * (1 + p['C1'] * (np.exp(-0.18 * ts) +  np.exp(-0.18 * (tsep[i] - ts)))))
         return mdls
-
     t_dctnry = {'C3pt': X[1:tsep[i]]}
     data_dctnry = {'C3pt': gv.gvar(data['link_mean'][0, i, 1:tsep[i]], data['link_err'][0, i, 1:tsep[i]])}
-
     fit = lsqfit.nonlinear_fit(data=(t_dctnry, data_dctnry), fcn=ft_mdls, prior=ini_prr, debug=True) 
-
     fit_parameter[0] = (float)(fit.chi2/fit.dof)
     fit_parameter[1] = (float)(fit.Q)
     fit_parameter[2] = (float)(fit.logGBF)
     # if i == 3:
     print(fit.format(True))
-
     # fitted function values
-
     t_ary = fit.data[0]['C3pt']
     t_lst = np.arange(0.8,tsep[i]-0.6,0.1)
     data_fit_fcn_gvar = fit.fcn({'C3pt':t_lst}, fit.p)['C3pt']
     data_fit_mean = np.array([c2.mean for c2 in data_fit_fcn_gvar])
     data_fit_err = np.array([c2.sdev for c2 in data_fit_fcn_gvar])
-
     ax.errorbar(X[1:tsep[i]] - (tsep[i]) / 2 , data['link_mean'][0, i, 1:tsep[i]], yerr=data['link_err'][0, i, 1:tsep[i]], fmt = fmt[i], alpha=0.5, capsize=3.5, capthick=1.5, label='tsep=%d'%(tsep[i]), linestyle='none', elinewidth=2) 
     ax.plot(t_lst - (tsep[i]) / 2, data_fit_mean, label="best_fit_tsep=%d"%(tsep[i])) # , color="b"
     ax.fill_between(t_lst - (tsep[i]) / 2, data_fit_mean - data_fit_err, data_fit_mean + data_fit_err,  alpha=0.3) 

@@ -5,10 +5,8 @@ import gvar as gv
 import sympy as sp
 import time
 from proplot import rc
-
 from analyse_fun import *
 import numpy as np
-
 filepath = np.array([
     '/public/home/sush/3pt_distillation/pion/result/%dx%d/Px%dPy%dPz%d/ENV_%d/conf%d/corr_uud_gamma4_3pt_tseq%d_link_indx%d_U.dat', 
     '/public/home/sush/3pt_distillation/proton/result/%dx%d/Px%dPy%dPz%d/ENV_%d_24x72/corr_uuu_conf%d_2pt.dat',
@@ -52,7 +50,6 @@ analyse.plot_meff_2pt('data',meff_range)
 # analyse.plot_PDF_ENV('U',[0,1.22])
 # analyse.plot_link_indx_ENV(1,[0.829,0.86],1)
 print('complete')
-
 # A,B = sp.symbols('A B')
 # X=[A,B]
 # X0=[0.6, 0.01]
@@ -69,11 +66,9 @@ print('complete')
 # print(A[0]*20+(400-(20*(n-1))))
 # for i in range(n):
 #     print( float(X_0[0] +X_0[1]*i )) # + X_0[2]*i**2 + X_0[3]*i**3 + X_0[4]*i**4 + X_0[5]*i**5 + X_0[6]*i**6 + X_0[7]*i**7 
-
 # x = sp.symbols('x')
 # fun = X_0[0] +X_0[1]*x + X_0[2]*x**2 +X_0[3]*x**3 - 1.2
 # sp.solve(fun,x)
-
 # lsqfit
 # for tsep_indx in range(N_tsep):
 #     t_ary = np.asarray(range(tsep_indx+1))-int(tsep_indx/2)
@@ -85,14 +80,10 @@ print('complete')
 #         ts = t_dctnry['C3pt']
 #         mdls['C3pt'] = (p['C0'] + p['C1']*(np.exp(-p['E0']*(ts - int(tsep_indx/2))*inp.alttc/fm2GeV) + np.exp(-p['E0']*(ts + int(tsep_indx/2))*inp.alttc/fm2GeV)) + p['C3']*np.exp(-p['E0']*tsep_indx*inp.alttc/fm2GeV)) /(1 + p['C5']*np.exp(-p['E0']*tsep_indx*inp.alttc/fm2GeV))
 #         return mdls
-
 #     t_dctnry = {'C3pt': t_ary[:]}
 #     data_dctnry = {'C3pt': gv.gvar(Re_ratio_3pt_2pt_mean[0,-1,0], Re_ratio_3pt_2pt_cov[0,-1,0])}
-
 #     fit = lsqfit.nonlinear_fit(data=(t_dctnry, data_dctnry), fcn=ft_mdls, prior=ini_prr, debug=True) 
-
 #     fit_parameter[0] = (float)(fit.chi2/fit.dof)
 #     fit_parameter[1] = (float)(fit.Q)
 #     fit_parameter[2] = (float)(fit.logGBF)
 #     print(fit.format(True))
-

@@ -24,7 +24,6 @@ class creat_chroma_ini:
         ):
         print(f'''<?xml version="1.0"?>
     <chroma>
-
         <annotation>
             Quark project 
                 {name}
@@ -162,7 +161,6 @@ class creat_chroma_ini:
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Source>
                 </Param>
                 <NamedObject>
@@ -237,8 +235,6 @@ class creat_chroma_ini:
                 </NamedObject>
             </elem>
               ''')
-
-
     def propagator(
         self, 
         quark_mass:str,
@@ -256,7 +252,6 @@ class creat_chroma_ini:
         def clover_invert(self):
             b11,b12,b13,b14 = blocking1
             b21,b22,b23,b24 = blocking2
-
             print(f'''
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
@@ -375,12 +370,10 @@ class creat_chroma_ini:
                     <version>2</version>
                     <SinkType>{type}</SinkType>
                     <j_decay>3</j_decay>
-
                     <Displacement>
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Sink>
                 </Param>
                 <NamedObject>
@@ -390,7 +383,6 @@ class creat_chroma_ini:
                 </NamedObject>
             </elem>
                 ''')
-
     def shell_sink_smear(
         self,
         name:str='smeared_prop',  
@@ -592,17 +584,14 @@ class creat_chroma_ini:
             </BuildingBlocks>
             <xml_file>{self.out_path}xml/{self.hadron}_3pt_Px{self.Px}Py{self.Py}Pz{self.Pz}_ENV-1_conf{self.conf_id}_tsep{self.multi_tSinks}_mass{self.quark_mass}_linkdir{links_dir}_linkmax{links_max}.xml</xml_file>
         </elem>
-
               ''')
     def end(self):
         print(f'''
             </InlineMeasurements>    
             
             <nrow>{self.Nx} {self.Nx} {self.Nx} {self.Nt}</nrow>
-
             
         </Param>
-
         <RNG>
             <Seed>
             <elem>11</elem>
@@ -611,13 +600,11 @@ class creat_chroma_ini:
             <elem>0</elem>
             </Seed>
         </RNG>
-
         <Cfg>
             <cfg_type>SCIDAC</cfg_type>
             <cfg_file>{self.conf_dir}{self.conf_id}.lime</cfg_file>
             <parallel_io>true</parallel_io>
         </Cfg>
-
     </chroma>
         '''
     )

@@ -5,8 +5,6 @@ import fileinput
 import sympy as sy
 import lsqfit
 from iog_reader.iog_reader import iog_read
-
-
 def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
@@ -36,7 +34,6 @@ def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max
             data_readed_3pt[-1,P_indx,ENV_indx,0,0,conf_indx,:,0] = data['Re'].to_numpy()
             data_readed_3pt[-1,P_indx,ENV_indx,0,0,conf_indx,:,1] = data['Im'].to_numpy()
     return data_readed_3pt
-
 def read_data(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
@@ -75,9 +72,7 @@ def read_data(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_ma
             for t_indx in range(n_data):
                 mid_data_C = mid_data_B[t_indx+1].split(' ')
                 data_readed_3pt[-1,P_indx,ENV_indx,0,0,conf_indx,t_indx,:] = [float(list) for list in mid_data_C] # data, P, ENV, tsep, link, Ncnfg, Nt, (list,re,im)
-
     return data_readed_3pt[...,1:] # data, P, ENV, tsep, link, Ncnfg, Nt, (list,re,im)
-
 def jcknf_sample(data):
     sum_dimension = np.asarray(np.shape(data))
     sum_dimension[-2] = 1
@@ -85,7 +80,6 @@ def jcknf_sample(data):
     data_sum = np.sum(data, axis = -2).reshape(sum_dimension)
     jcknf_sample = (data_sum - data)/(n-1)
     return jcknf_sample
-
 def jackknife_ctr_err(data): # data (Ncnfg, Nt)
     n = data.shape[0]
     Nt = data.shape[1]
@@ -96,7 +90,6 @@ def jackknife_ctr_err(data): # data (Ncnfg, Nt)
     jcknf_data_err = np.std(jcknf_sample_data, axis = 0)*np.sqrt(n-1)
     jcknf_data = np.array([[jcknf_data_cntrl],[jcknf_data_err]])
     return jcknf_data
-
 def meff_2pt(data,dtype): # data:1, P, ENV, 1, 1, Ncnfg, Nt, dtype=complex
     Ncnfg = data.shape[-2]
     Nt = data.shape[-1]
@@ -117,13 +110,11 @@ def meff_2pt(data,dtype): # data:1, P, ENV, 1, 1, Ncnfg, Nt, dtype=complex
             def fndroot(eqnf,ini):
                 sol = fsolve(eqnf,ini, xtol=1e-5)
                 return sol
-
             data_cosh_sample = np.array([fndroot(eff_mass_eqn(c2pt),ini) for c2pt in data_sample_ini[:,:]])
             data_mean = np.mean(data_cosh_sample,axis=-2)
             data_err = np.sqrt(Ncnfg-1)*np.std(data_cosh_sample,axis=-2)
     meff_data_2pt = np.array([[data_mean],[data_err]])
     return meff_data_2pt
-
 def PDF_3pt_2pt(data,tsep_array): # data, P, ENV, tsep, link, Ncnfg, Nt, dtype=complex
     # the number of data
     N_data = data.shape[0]
@@ -153,12 +144,10 @@ def PDF_3pt_2pt(data,tsep_array): # data, P, ENV, tsep, link, Ncnfg, Nt, dtype=c
         # PDF_3pt_2pt_cov[:,:,:,tsep_indx,:,:tsep_array[tsep_indx]+1,:tsep_array[tsep_indx]+1] = (1/(Nt-1)) * np.transpose(cov_matrix,(0,1,2,3,5,4)) @ cov_matrix
     #ratio_err
     PDF_3pt_2pt_err = np.std(PDF_3pt_2pt_sample, axis = -2)*np.sqrt(Ncnfg-1)
-
         
     PDF_3pt_2pt_data = np.array([PDF_3pt_2pt_mean,PDF_3pt_2pt_err]) #size = (2,data_1-1,t_sep+1)
     
     return PDF_3pt_2pt_data, PDF_3pt_2pt_cov
-
 def average_for_back(data):
     
     n = data.shape[0]
@@ -169,7 +158,6 @@ def average_for_back(data):
     data_average_for_back = (average_for + average_back)/2  
     
     return data_average_for_back
-
 def average_for_min_back(data):
     
     n = data.shape[0]
@@ -180,7 +168,6 @@ def average_for_min_back(data):
     data_average_for_back = (average_for - average_back)/2  
     
     return data_average_for_back
-
 def min_fun_descent(function, X_1, X_2, X0_1, X0_2):
     alpha = 0.1
     delta = 0.01
@@ -219,13 +206,10 @@ def min_fun_descent(function, X_1, X_2, X0_1, X0_2):
         # X0_1 = (float)(X0_1 + u_value * d_fun_value_1)
         # X0_2 = (float)(X0_2 + u_value * d_fun_value_2)
         
-
     function_value = (float)(function[0].subs({X_1: X0_1, X_2: X0_2}).evalf())
     parameter = np.array([X0_1, X0_2, function_value])
     # print(parameter)
     return parameter
-
-
 def min_fun_newton(function, X_1, X_2, X0_1, X0_2):
     max_cycle_index = 200
     alpha = 0.01
@@ -269,8 +253,6 @@ def min_fun_newton(function, X_1, X_2, X0_1, X0_2):
     function_value = (float)(function[0].subs({X_1: X0_1, X_2: X0_2}).evalf())
     parameter = np.array([X0_1, X0_2, function_value])
     return parameter
-
-
 def c_square(data, function, X_1, X_2, X0_1, X0_2):
     n = data.shape[0]
     t = data.shape[1]
@@ -289,12 +271,7 @@ def c_square(data, function, X_1, X_2, X0_1, X0_2):
     
     c_square_mean = np.sum(c_square_ni, axis = 0)/n
     return c_square_mean
-
-
-
-
 # Para = min_fun(fit_function, )
-
 # def dispersion_fit()
 # def plt():
     # figure = plt.figure()

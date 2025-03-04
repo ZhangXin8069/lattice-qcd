@@ -2,8 +2,6 @@ import matplotlib.pyplot as plt
 import cupy as np
 # import cupy as cp
 import math
-
-
 gamma_5 = np.array(
     [[1, 0, 0, 0],
      [0, 1, 0, 0],

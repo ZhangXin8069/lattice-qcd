@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=test  #meson_=CONF=
 #SBATCH --partition=gpu-debug
 #SBATCH --output=lap.=CONF=.out
@@ -9,11 +8,9 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --time=2:00:00
 ##SBATCH --gres=cpu:1
-
 # conda deactivate
 # module load cuda/11.4.4-gcc-10.3.0
 # conda activate cupy114
-
 run_dir=.
 input_dir=${run_dir}
 exe=/public/home/zhangxin/lattice-lqcd/meson_run1110/meson_run1110/oneparticle/contrac_2pt_meson_multiprocess_test.py

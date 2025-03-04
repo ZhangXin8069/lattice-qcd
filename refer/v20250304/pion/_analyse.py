@@ -8,41 +8,32 @@ import gvar as gv
 import sympy as sp
 import time
 from proplot import rc
-
 st_io = time.time()
-
 infile=fileinput.input()
 inp = read_input(infile)
-
 fm2GeV = 0.1973
-
 # fit points
 f_stare = 8
 f_end = 15
 n_ti = f_end - f_stare
-
 ed_io = time.time()
 print("analyse input file readed, use time: %.3f s"%(ed_io-st_io))
-
 st_read_file = time.time()
 # data path
 if inp.type == 'ratio' or inp.type == '3pt':
     filepath = np.array([inp.data_quark_3pt_corr_path, inp.data_corr_2pt_path, inp.iog_quark_3pt_corr_path, inp.iog_corr_2pt_path])
 else:
     filepath = np.array([inp.iog_quark_3pt_corr_path, inp.iog_corr_2pt_path])
-
 if inp.time_fold == 1:
     meff_Nt_2pt=inp.Nt//2
     Nt_3pt = inp.Nt//2+1
 else:
     meff_Nt_2pt=inp.Nt-1
     Nt_3pt = inp.Nt
-
 tsep_array = np.asarray(range(inp.t_sep_stare, inp.t_sep_end+1, inp.t_sep_gap))
 ENV_array = np.asarray(range(inp.ENV_stare,inp.ENV_end+1,inp.ENV_gap))
 P_array = np.asarray([[pz,py,px] for pz in range(inp.Pz_stare, inp.Pz_end+1,1) for py in range(inp.Py_stare, inp.Py_end+1,1) for px in range(inp.Px_stare, inp.Px_end+1,1)])
 link_array = np.asarray(range(-inp.link_max,inp.link_max+1,1))
-
 if inp.read_type == 'data':
     data_readed = read_data(filepath[:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_stare, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type) # data, P, ENV, tsep, link, inp.Ncnfg, inp.Nt, (re,im)
 elif inp.read_type == 'iog':
@@ -54,7 +45,6 @@ elif inp.read_type == 'both':
     data_readed = np.asarray(data_readed)
 ed_read_file = time.time()
 print("read data in data of python, use time %.3f s"%(ed_read_file-st_read_file))
-
 N_data = data_readed.shape[0]
 N_ENV = ENV_array.shape[0]
 N_P = P_array.shape[0]
@@ -62,7 +52,6 @@ N_tsep = tsep_array.shape[0]
 N_link = link_array.shape[0]
 N_ratio = int(N_data/2)
 N_C2pt = ceil(N_data/2)
-
 data_readed_Re = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, inp.Ncnfg, Nt_3pt), dtype = np.double)
 if inp.time_fold == 1:
     for i in range(N_ratio):
@@ -70,24 +59,20 @@ if inp.time_fold == 1:
         data_readed_Re[2*i+1] = (1.0*(data_readed[2*i+1,...,:32+1,0] + data_readed[2*i+1,...,32-1:,0][...,::-1]))
 else:
     data_readed_Re = 1.0*data_readed[:,:,:,:,:,:,:,0]
-
 st_analyse = time.time()
 Re_ratio_3pt_2pt_mean = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link, Nt_3pt), dtype=np.double)
 Re_ratio_3pt_2pt_err = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link, Nt_3pt), dtype=np.double)
 Re_ratio_3pt_2pt_cov = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link, Nt_3pt, Nt_3pt), dtype=np.double)
 for i in range(N_ratio):
     Re_ratio_3pt_2pt_mean[i], Re_ratio_3pt_2pt_err[i], Re_ratio_3pt_2pt_cov[i] = PDF_3pt_2pt(data_readed_Re[2*i:2*i+2], tsep_array)
-
 ENV_y = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link), dtype=np.double) # N_ratio, N_P, N_ENV, N_tsep, N_link
 ENV_err = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link), dtype=np.double)
 ENV_cov = np.zeros((N_ratio, N_P, N_ENV, N_tsep, N_link), dtype=np.double)
 for tsep_indx in range(N_tsep):
     ENV_y[:,:,:,tsep_indx,:] = np.mean(Re_ratio_3pt_2pt_mean[:,:,:,tsep_indx,:,tsep_array[tsep_indx]//2-5:tsep_array[tsep_indx]//2+5],axis=-1)
     ENV_err[:,:,:,tsep_indx,:] = np.std(Re_ratio_3pt_2pt_mean[:,:,:,tsep_indx,:,tsep_array[tsep_indx]//2-5:tsep_array[tsep_indx]//2+5],axis=-1)
-
 Re_2pt_mean = np.zeros((N_C2pt, N_ENV, N_P, meff_Nt_2pt), dtype=np.double)
 Re_2pt_err = np.zeros((N_C2pt, N_ENV, N_P, meff_Nt_2pt),dtype=np.double)
-
 for C2pt_indx in range(N_C2pt):
     for P_indx in range(N_P):
         if C2pt_indx==0:
@@ -100,12 +85,9 @@ for C2pt_indx in range(N_C2pt):
 print(Re_2pt_mean)
 ed_analyse = time.time()
 print("ratio(C3pt/C2pt), ENV_ratio and C2pt analyse complete, use time %.3f s"%(ed_analyse-st_analyse))
-
 y_range=np.array([[0,0.5],[0,0.05],[0.85,1.25],[0,1.25],[0,0.05],[0.29,0.31],[0.29,0.31]])
-
 # plot fig
 marker_array = np.array(['s','*','+','x','p','h','v','X','D','P','H','o'])
-
 if inp.type == '2pt' or inp.type == 'ratio':
     plt.rcParams.update({'font.size':25})
     st_plot = time.time()
@@ -133,9 +115,7 @@ if inp.type == '2pt' or inp.type == 'ratio':
         Re_2pt_err_ENV = Re_2pt_err[0,:,P_indx,12]
         ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), Re_2pt_mean_ENV, yerr=Re_2pt_err_ENV, alpha=0.5, marker = marker_array[P_indx], capsize=3.5, capthick=1.5, label='P=(%d,%d,%d)'%(P_array[P_indx,0],P_array[P_indx,1],P_array[P_indx,2]), linestyle='none',elinewidth=2) # fmt = 'bs'
     plt.legend()
-
     fig.savefig("%s/%s"%(inp.save_path, 'meff_2pt_ENV_distillation.png'))
-
     fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
     fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
     ax.set_title('C_2pt_ENV',fontdict={'fontsize':30,'fontweight':'light'})
@@ -151,11 +131,9 @@ if inp.type == '2pt' or inp.type == 'ratio':
         C2pt_err[t_sep_indx] = jackknife_ctr_err(C2pt_ENV)[1]
         ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), C2pt_mean[t_sep_indx], yerr=C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
         plt.legend()
-
     fig.savefig("%s/%s"%(inp.save_path, 'C_2pt_ENV_distillation.png'))
     
 if inp.type == '3pt' or inp.type == 'ratio':
-
     # ENV_y: N_data-1, N_P, N_ENV, N_tsep, N_link
     for data_indx in range(1):
         if data_indx==0:
@@ -169,9 +147,7 @@ if inp.type == '3pt' or inp.type == 'ratio':
         for t_sep_indx in range(N_tsep):
             ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), ENV_y[data_indx,0,:,t_sep_indx,inp.link_max].T, yerr=ENV_err[data_indx,0,:,t_sep_indx,inp.link_max].T, alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend(loc=2)
-
         fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_C_2pt_ENV_%s_distillation.png'%(data_type)))
-
     for data_indx in range(1):
         if data_indx==0:
             data_type = 'data'
@@ -194,10 +170,8 @@ if inp.type == '3pt' or inp.type == 'ratio':
             plt.legend()
             
         fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_ENV_%s_distillation.png'%(data_type)))
-
     together_C3pt_C2pt_mean = np.append(C3pt_mean,C2pt_mean).reshape(N_tsep*2,N_ENV)
     together_C3pt_C2pt_err = np.append(C3pt_err,C2pt_err).reshape(N_tsep*2,N_ENV)
-
     fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
     fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
     ax.set_title('C_3pt_C_2pt_ENV',fontdict={'fontsize':30,'fontweight':'light'})
@@ -211,10 +185,7 @@ if inp.type == '3pt' or inp.type == 'ratio':
         plt.legend()
         
     fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_C_2pt_ENV_distillation.png'))
-
     ed_plot = time.time()
-
-
     fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
     fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
     ax.set_title('ratio_link',fontdict={'fontsize':30,'fontweight':'light'})
@@ -265,8 +236,6 @@ if inp.type == '3pt' or inp.type == 'ratio':
         
     print("plot png figure use time %.3f s"%(ed_plot-st_plot))
     print("****************************** all complete use time %.3f s*********************************"%(ed_plot-st_io))
-
-
 # for data_indx in range(N_ratio):
 #     if data_indx==0:
 #         data_type = 'distillation'
@@ -277,7 +246,6 @@ if inp.type == '3pt' or inp.type == 'ratio':
 #     for ENV_indx in ENV_indx:
 #         ENV_y[data_indx] = ENV_y[data_indx] / ENV_y[data_indx, 0, ENV_indx, 0, inp.link_max]
 #         ENV_err[data_indx] = ENV_err[data_indx] / ENV_y[data_indx, 0, ENV_indx, 0, inp.link_max]
-
 # A,B,C,D = sp.symbols('A B C D')
 # X=[A,B,C,D]
 # X0=[1,0.2,0.1,-0.05]
@@ -285,11 +253,9 @@ if inp.type == '3pt' or inp.type == 'ratio':
 # fit_function = sum((ENV_y[0, 0, -1, 0, x+inp.link_max] - A*sp.exp(-B*x+C) - D)**2 for x in range(11))
 # print(fit_function)
 # X_0 , funvale = min_fun_descent(fit_function,X,X0)
-
 # print(ENV_y[0, 0, -1, 0, inp.link_max:])
 # for i in range(11):
 #     print(float(float(X_0[0]) * np.exp(float(-X_0[1]) * i + X_0[2]) + X_0[3]) )
-
 # lsqfit
 # for tsep_indx in range(N_tsep):
 #     t_ary = np.asarray(range(tsep_indx+1))-int(tsep_indx/2)
@@ -301,14 +267,10 @@ if inp.type == '3pt' or inp.type == 'ratio':
 #         ts = t_dctnry['C3pt']
 #         mdls['C3pt'] = (p['C0'] + p['C1']*(np.exp(-p['E0']*(ts - int(tsep_indx/2))*inp.alttc/fm2GeV) + np.exp(-p['E0']*(ts + int(tsep_indx/2))*inp.alttc/fm2GeV)) + p['C3']*np.exp(-p['E0']*tsep_indx*inp.alttc/fm2GeV)) /(1 + p['C5']*np.exp(-p['E0']*tsep_indx*inp.alttc/fm2GeV))
 #         return mdls
-
 #     t_dctnry = {'C3pt': t_ary[:]}
 #     data_dctnry = {'C3pt': gv.gvar(Re_ratio_3pt_2pt_mean[0,-1,0], Re_ratio_3pt_2pt_cov[0,-1,0])}
-
 #     fit = lsqfit.nonlinear_fit(data=(t_dctnry, data_dctnry), fcn=ft_mdls, prior=ini_prr, debug=True) 
-
 #     fit_parameter[0] = (float)(fit.chi2/fit.dof)
 #     fit_parameter[1] = (float)(fit.Q)
 #     fit_parameter[2] = (float)(fit.logGBF)
 #     print(fit.format(True))
-

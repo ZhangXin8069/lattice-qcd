@@ -1,8 +1,6 @@
 import sys
 from creat_chroma import creat_chroma_ini
-
 conf_id = str(sys.argv[1])
-
 hadron = 'pion'
 quark_mass = '-0.2770'
 tsep='10'

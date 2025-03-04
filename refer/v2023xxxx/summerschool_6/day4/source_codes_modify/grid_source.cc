@@ -2,29 +2,21 @@
 /*! \file
  *  \brief Shell source construction
  */
-
 #include "chromabase.h"
 #include "handle.h"
-
 #include "meas/sources/source_const_factory.h"
 #include "grid_source.h"
 #include "meas/sources/srcfil.h"
 #include "util/ferm/transf.h"
-
 #include "meas/smear/quark_smearing_factory.h"
 #include "meas/smear/quark_smearing_aggregate.h"
-
 #include "meas/smear/link_smearing_aggregate.h"
 #include "meas/smear/link_smearing_factory.h"
-
 #include "meas/smear/quark_displacement_aggregate.h"
 #include "meas/smear/quark_displacement_factory.h"
-
 #include "meas/smear/simple_quark_displacement.h"
 #include "meas/smear/no_quark_displacement.h"
-
 #include "meas/sources/zN_src.h"
-
 namespace Chroma
 {
   // Read parameters
@@ -33,15 +25,11 @@ namespace Chroma
     GridQuarkSourceConstEnv::Params tmp(xml, path);
     param = tmp;
   }
-
   // Writer
   void write(XMLWriter& xml, const std::string& path, const GridQuarkSourceConstEnv::Params& param)
   {
     param.writeXML(xml, path);
   }
-
-
-
   //! Hooks to register the class
   namespace GridQuarkSourceConstEnv
   {
@@ -53,24 +41,19 @@ namespace Chroma
       {
 	return new SourceConst<LatticePropagator>(Params(xml_in, path));
       }
-
       //! Callback function
       QuarkSourceConstruction<LatticeStaggeredPropagator>* createStagProp(XMLReader& xml_in,
 									  const std::string& path)
       {
 	return new SourceConst<LatticeStaggeredPropagator>(Params(xml_in, path));
       }
-
       //! Local registration flag
       bool registered = false;
-
       //! Name to be used
       const std::string name("MOM_GRID_SOURCE");
     }
-
     //! Return the name
     std::string getName() {return std::string("SHELL_SOURCE");}
-
     //! Register all the factories
     bool registerAll() 
     {
@@ -82,13 +65,10 @@ namespace Chroma
 	success &= QuarkDisplacementEnv::registerAll();
 	success &= Chroma::ThePropSourceConstructionFactory::Instance().registerObject(name, createProp);
 	success &= Chroma::TheStagPropSourceConstructionFactory::Instance().registerObject(name, createStagProp);
-
 	registered = true;
       }
       return success;
     }
-
-
     //! Read parameters
     Params::Params()
     {
@@ -97,17 +77,13 @@ namespace Chroma
       t_srce = 0;
       quark_smear_lastP = true;
     }
-
     //! Read parameters
     Params::Params(XMLReader& xml, const std::string& path)
     {
       XMLReader paramtop(xml, path);
-
       int version;
       read(paramtop, "version", version);
-
       quark_smear_lastP = true;
-
       switch (version) 
       {
       case 1:
@@ -116,26 +92,19 @@ namespace Chroma
 	quark_displacement.id = SimpleQuarkDisplacementEnv::getName();
 	int disp_length = 0;
 	int disp_dir = 0;
-
 	XMLBufferWriter xml_tmp;
 	push(xml_tmp, "Displacement");
 	write(xml_tmp, "DisplacementType", quark_displacement.id);
-
 	if (paramtop.count("disp_length") != 0)
 	  read(paramtop, "disp_length", disp_length);
-
 	if (paramtop.count("disp_dir") != 0)
 	  read(paramtop, "disp_dir", disp_dir);
-
 	write(xml_tmp, "disp_length", disp_length);
 	write(xml_tmp, "disp_dir",  disp_dir);
-
 	pop(xml_tmp);  // Displacement
-
 	quark_displacement.xml = xml_tmp.printCurrentContext();
       }
       break;
-
       case 2:
       {
 	if (paramtop.count("Displacement") != 0)
@@ -144,36 +113,29 @@ namespace Chroma
 	  quark_displacement = QuarkDisplacementEnv::nullXMLGroup();
       }
       break;
-
       case 3:
       {
 	read(paramtop, "quark_smear_lastP", quark_smear_lastP);
-
 	if (paramtop.count("Displacement") != 0)
 	  quark_displacement = readXMLGroup(paramtop, "Displacement", "DisplacementType");
 	else
 	  quark_displacement = QuarkDisplacementEnv::nullXMLGroup();
       }
       break;
-
       default:
 	QDPIO::cerr << __func__ << ": parameter version " << version 
 		    << " unsupported." << std::endl;
 	QDP_abort(1);
       }
-
       quark_smearing = readXMLGroup(paramtop, "SmearingParam", "wvf_kind");
-
       if (paramtop.count("LinkSmearing") != 0)
 	link_smearing = readXMLGroup(paramtop, "LinkSmearing", "LinkSmearingType");
       else
 	link_smearing = LinkSmearingEnv::nullXMLGroup();
-
       read(paramtop, "t_srce", t_srce);
       read(paramtop, "grid", t_grid);
       read(paramtop, "j_decay",  j_decay);
       read(paramtop, "ini_mom",  ini_mom);
-
       Z3_phase=false;
       if (paramtop.count("Z3_phase") != 0)
       {
@@ -181,27 +143,21 @@ namespace Chroma
       }
       
     }
-
-
     // Writer
     void Params::writeXML(XMLWriter& xml, const std::string& path) const
     {
       push(xml, path);
-
       int version = 3;
       QDP::write(xml, "version", version);
-
       write(xml, "SourceType", GridQuarkSourceConstEnv::name);
       xml << quark_smearing.xml;
       xml << quark_displacement.xml;
       xml << link_smearing.xml;
-
       write(xml, "t_srce",  t_srce);
       write(xml, "grid",  t_grid);
       write(xml, "j_decay",  j_decay);
       write(xml, "ini_mom", ini_mom);
       write(xml, "quark_smear_lastP",  quark_smear_lastP);
-
       pop(xml);
     }
     
@@ -211,9 +167,7 @@ namespace Chroma
     SourceConst<LatticePropagator>::operator()(const multi1d<LatticeColorMatrix>& u) const
     {
       QDPIO::cout << "Shell source" << std::endl;
-
       LatticePropagator quark_source;
-
       try
       {
 	//
@@ -231,7 +185,6 @@ namespace Chroma
 									 params.link_smearing.path));
 	  (*linkSmearing)(u_smr);
 	}
-
 	//
 	// Create the quark smearing object
 	//
@@ -243,7 +196,6 @@ namespace Chroma
 	  quarkSmearing(ThePropSmearingFactory::Instance().createObject(params.quark_smearing.id,
 									smeartop,
 									params.quark_smearing.path));
-
 	//
 	// Create the quark displacement object
 	//
@@ -255,10 +207,7 @@ namespace Chroma
 	  quarkDisplacement(ThePropDisplacementFactory::Instance().createObject(params.quark_displacement.id,
 										displacetop,
 										params.quark_displacement.path));
-
-
 /// set the phase.
-
     LatticeReal p_dot_x;
     p_dot_x = 0.;
     for (int mu = 0, j=0; mu < Nd; ++mu) {
@@ -271,7 +220,6 @@ namespace Chroma
        ++j;
     }
     LatticeComplex  phase=cmplx(cos(p_dot_x),sin(p_dot_x));
-
 /// set the phase.
 	//
 	// Create quark source
@@ -285,7 +233,6 @@ namespace Chroma
         else
            theta = zero;
 	c = cmplx(cos(theta),sin(theta));
-
 	multi1d<int> offset(4);
 	for(int idr=0;idr<4;idr++) offset[idr]=(params.t_grid[idr]>0)?params.t_grid[idr]:(Layout::lattSize()[idr]);
 	QDPIO::cout << "Offsets: " << offset[0] << " , " << offset[1] << " , " << offset[2] 
@@ -305,7 +252,6 @@ namespace Chroma
            pokeSpin(chi,pokeColor(colorvec,c1,color_source),spin_source);
            FermToProp(chi, quark_source, color_source, spin_source);
        }
-
 	// Smear and displace
 	if (params.quark_smear_lastP)
 	{
@@ -313,7 +259,6 @@ namespace Chroma
 	  // displace the point source first, then smear
 	  // displacement has to be taken along negative direction.
 	  (*quarkDisplacement)(quark_source, u_smr, MINUS);
-
 	  // do the smearing
 	  (*quarkSmearing)(quark_source, u_smr);
 	}
@@ -321,27 +266,22 @@ namespace Chroma
 	{
 	  // do the smearing
 	  (*quarkSmearing)(quark_source, u_smr);
-
 	  // Smear the colour source
 	  // smear the point source first, then displace
 	  // displacement has to be taken along negative direction.
 	  (*quarkDisplacement)(quark_source, u_smr, MINUS);
 	}
-
       }
       catch(const std::string& e) 
       {
         QDPIO::cerr << name << ": Caught Exception smearing: " << e << std::endl;
         QDP_abort(1);
       }
-
       LatticeComplex corr=trace(adj(quark_source)*quark_source);
       double value=sum(corr).elem().elem().elem().real();
       QDPIO::cout << "Norm2 of the source is " << value << std::endl;
-
       return quark_source;
     }
-
     //! Construct the source
     template<>
     LatticeStaggeredPropagator

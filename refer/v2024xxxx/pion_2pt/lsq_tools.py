@@ -2,8 +2,6 @@ import numpy as np
 import time
 import lsqfit
 import gvar as gv
-
-
 def read_dat_file(file_prefix,file_subfix="",one=True):
     import glob
     if one == True:
@@ -11,7 +9,6 @@ def read_dat_file(file_prefix,file_subfix="",one=True):
     else:
         file_list = glob.glob(f"{file_prefix}*{file_subfix}")
     sorted_file_list = sorted(file_list, key=lambda x: int(''.join(filter(str.isdigit, x))))
-
     #print(sorted_file_list)
     all_data=[]
     for file in sorted_file_list:
@@ -37,7 +34,6 @@ def read_dat_file(file_prefix,file_subfix="",one=True):
             return all_data[0]
     else:
         return all_data
-
 def conf_list(filepath):
     file_data = open(filepath,"rb")
     conf_list = []
@@ -46,18 +42,13 @@ def conf_list(filepath):
         conf_list.append(int(tmp[0]))
     file_data.close()
     return np.array(conf_list)
-
-
-
 def jackknife(corr):
     jacksample=corr.shape[0]
     jack_corr = (np.sum(corr,0)-corr)/(jacksample-1)
     return jack_corr
-
 def bootstrap(source, nbsamples):
 	source_shape = source.shape
 	nsample = source_shape[0]
-
 	boots_shape = list(source_shape)
 	boots_shape[0] = nbsamples
 	boots_shape = tuple(boots_shape)
@@ -72,15 +63,11 @@ def bootstrap(source, nbsamples):
 			_sum = _sum + source[_rnd[_r]]
 		boot[_i] = _sum / nsample
 	return boot
-
 def cov_M(contract):
     # contract.shape[0] is nsamples 
     cov=contract - np.mean(contract,0)
     cov=np.matmul(cov.T, cov) / contract.shape[0]
     return cov   
-
-
-
 def lsq_fit(contract,start,beta,Eexp,method,shape,efunc):
     N=10  #contract.shape[0]
     Nt=contract.shape[1]
@@ -89,7 +76,6 @@ def lsq_fit(contract,start,beta,Eexp,method,shape,efunc):
     if shape=="twostate":
         pr_arr_corr = np.zeros([N, 4])
     T = np.arange(Nt)
-
     if method == "p0":
         print("fit with p0 method")
         print("")
@@ -133,6 +119,5 @@ def lsq_fit(contract,start,beta,Eexp,method,shape,efunc):
         
         
         #print("id=",fid, "E=",fit.p["E0"].mean, "chis = ", fit.chi2/ (fit.dof+1))
-
             
     return pr_arr_corr

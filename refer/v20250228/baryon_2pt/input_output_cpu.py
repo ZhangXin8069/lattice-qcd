@@ -1,14 +1,10 @@
 #!/public/home/xinghy/anaconda3-2023.03/envs/cupy114/bin/python
 import os
 import numpy as np
-
-
 def write_data_ascii(data, T, L, filename, complex=True, verbose=False):
     """Writes the data into a file.
-
     The file is written to have L. Liu's data format so that the first line
     has information about the number of samples and the length of each sample.
-
     Args:
         filename: The filename of the file.
         data: The numpy array with data.
@@ -18,7 +14,6 @@ def write_data_ascii(data, T, L, filename, complex=True, verbose=False):
     check_write(filename)
     if verbose:
         print("saving to file " + str(filename))
-
     # in case the dimension is 1, treat the data as one sample
     # to make the rest easier we add an extra axis
     nsamples = data.shape[0]
@@ -38,8 +33,6 @@ def write_data_ascii(data, T, L, filename, complex=True, verbose=False):
        head = "%i %i %i %i %i" % (nsamples, T, 0, L, 1)
        _fdata = np.concatenate((_counter, _data), axis=1)
        savetxt(filename, _fdata, header=head, comments='', fmt=["%i", "%.16e"])
-
-
 def check_write(filename):
     """Do some checks before writing a file.
     """
@@ -50,12 +43,9 @@ def check_write(filename):
     # check whether file exists
     if os.path.isfile(filename):
         print(filename + " already exists, overwritting...")
-
-
 def savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\n', header='',
                 footer='', comments='# '):
     """This code is from NumPy 1.9.1. For help see there.
-
     It was included because features are used that were added in version 1.7
     but on some machines only NumPy version 1.6.2 is available.
     """
@@ -67,12 +57,10 @@ def savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\n', header='',
         except (TypeError, ValueError):
             return False
         return True
-
     # Py3 conversions first
     if isinstance(fmt, bytes):
         fmt = asstr(fmt)
         delimiter = asstr(delimiter)
-
     own_fh = False
     if _is_string_like(fname):
         own_fh = True
@@ -88,23 +76,19 @@ def savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\n', header='',
         fh = fname
     else:
         raise ValueError('fname must be a string or file handle')
-
     try:
         X = np.asarray(X)
-
         # Handle 1-dimensional arrays
         if X.ndim == 1:
             # Common case -- 1d array of numbers
             if X.dtype.names is None:
                 X = np.atleast_2d(X).T
                 ncol = 1
-
             # Complex dtype -- each field indicates a separate column
             else:
                 ncol = len(X.dtype.descr)
         else:
             ncol = X.shape[1]
-
         iscomplex_X = np.iscomplexobj(X)
         # `fmt` can be a string with multiple insertion points or a
         # list of formats.  E.g. '%10.5f\t%10d' or ('%10.5f', '%10d')
@@ -129,7 +113,6 @@ def savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\n', header='',
                 format = fmt
         else:
             raise ValueError('invalid fmt: %r' % (fmt,))
-
         if len(header) > 0:
             header = header.replace('\n', '\n' + comments)
             fh.write(asbytes(comments + header + newline))
@@ -149,4 +132,3 @@ def savetxt(fname, X, fmt='%.18e', delimiter=' ', newline='\n', header='',
     finally:
         if own_fh:
             fh.close()
-

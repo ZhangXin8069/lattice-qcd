@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
-
-
 <chroma>
   <Input><chroma>
-
         <annotation>
             Quark project 
                 pion_3pt
         </annotation>
         <Param> 
             <InlineMeasurements>  
-
             <elem>
                 <Name>MAKE_SOURCE</Name>
                 <Frequency>1</Frequency>
@@ -25,7 +21,6 @@
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Source>
                 </Param>
                 <NamedObject>
@@ -34,7 +29,6 @@
                 </NamedObject>
             </elem>
             
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -58,7 +52,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -113,7 +106,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>default_gauge_field</gauge_id>
@@ -121,7 +113,6 @@
                     <prop_id>prop</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
                 <Name>SINK_SMEAR</Name>
                 <Frequency>1</Frequency>
@@ -131,12 +122,10 @@
                     <version>2</version>
                     <SinkType>POINT_SINK</SinkType>
                     <j_decay>3</j_decay>
-
                     <Displacement>
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Sink>
                 </Param>
                 <NamedObject>
@@ -146,7 +135,6 @@
                 </NamedObject>
             </elem>
                 
-
             <elem>
                 <annotation>
                     Compute the hadron spectrum.
@@ -176,7 +164,6 @@
                 <output>./iog/pion_2pt_Px0Py0Pz0_ENV-1_conf11000_tsep-1_mass-0.2770.iog</output>
             </elem>
                 
-
             <elem>
                 <Name>SEQSOURCE_FAST</Name>
                 <SmearedProps>true</SmearedProps>
@@ -215,7 +202,6 @@
                 </NamedObject>
             </elem>
         
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -239,7 +225,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -294,7 +279,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>default_gauge_field</gauge_id>
@@ -302,7 +286,6 @@
                     <prop_id>seq_prop_U</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
             <annotation>
                 "a_0" just indicates the Gamma =1; therefore the output gamma is the corret ones int eh chroma gamma index
@@ -340,16 +323,12 @@
             </BuildingBlocks>
             <xml_file>./iog/xml/pion_3pt_Px0Py0Pz0_ENV-1_conf11000_tsep10_mass-0.2770_linkdir2_linkmax10.xml</xml_file>
         </elem>
-
               
-
             </InlineMeasurements>    
             
             <nrow>24 24 24 72</nrow>
-
             
         </Param>
-
         <RNG>
             <Seed>
             <elem>11</elem>
@@ -358,15 +337,12 @@
             <elem>0</elem>
             </Seed>
         </RNG>
-
         <Cfg>
             <cfg_type>SCIDAC</cfg_type>
             <cfg_file>/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_11000.lime</cfg_file>
             <parallel_io>true</parallel_io>
         </Cfg>
-
     </chroma>
-
   </Input>
   <ProgramInfo>
     <code_version>
@@ -2930,7 +2906,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
   </Config_info>
   <Observables>
     <w_plaq>0.535229471477835</w_plaq>
@@ -3001,7 +2976,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Source>
-
             <j_decay>3</j_decay>
             <t_source>0</t_source>
           </Param>
@@ -5549,9 +5523,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Observables>
           <w_plaq>0.535229471477835</w_plaq>
@@ -8224,9 +8195,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -8264,7 +8232,6 @@
         <Source_file_info><make_source>
       <id>799711817</id>
     </make_source>
-
         </Source_file_info>
         <Source_record_info><MakeSource>
       <version>1</version>
@@ -10825,7 +10792,6 @@
         </Params>
       </Config_info>
     </MakeSource>
-
         </Source_record_info>
         <Source_correlator>
           <source_corr>12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</source_corr>
@@ -10926,7 +10892,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
             <j_decay>3</j_decay>
           </Param>
           <NamedObject>
@@ -13474,9 +13439,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Observables>
           <w_plaq>0.535229471477835</w_plaq>
@@ -13511,7 +13473,6 @@
         <Prop_file_info><propagator>
       <id>799711883</id>
     </propagator>
-
         </Prop_file_info>
         <Prop_record_info><Propagator>
       <version>1</version>
@@ -16145,7 +16106,6 @@
         </Params>
       </Config_info>
     </Propagator>
-
         </Prop_record_info>
         <Forward_prop_correlator>
           <forward_prop_corr>1.19186151875206 0.145847439471838 0.0481461192516527 0.0258060015425125 0.0171583108259278 0.0121672980659849 0.00949051807592725 0.00778267578636449 0.00625429809978245 0.00478478863164285 0.00380277847832306 0.00310559759699352 0.00259671318133567 0.00223429516612651 0.00200382195469806 0.00173794075875821 0.00148868792537748 0.00124552794361675 0.00104410894748835 0.000895210637164644 0.000763813218210094 0.000648404986792089 0.000541052906356698 0.000461562620725642 0.000399854229925617 0.000348878652418094 0.000301603356301302 0.000251895441827108 0.0002093737039547 0.000178577878003678 0.000154947945911205 0.000130607251156339 0.000110640573659403 9.77009750156288e-05 8.829306702658e-05 8.46364629642385e-05 8.56465009466671e-05 9.28806054709984e-05 0.000103797870919233 0.000113902064166939 0.000126977552990765 0.000144778608311466 0.000170726301590885 0.000213086251780898 0.00027068402458612 0.000336781805716549 0.000413653373651955 0.000521804444764031 0.000646879374617507 0.000781883555043858 0.000928971097844996 0.00114258740094513 0.00145840557929203 0.00189169207429934 0.002525052713217 0.00326147797710719 0.00381865179752148 0.00403102258523219 0.00415579843865754 0.00446399577899765 0.00503871980695943 0.00580585416306228 0.00660357320291074 0.00778537070135524 0.00953852014164588 0.0120697782018555 0.0151505063978958 0.0192538506195443 0.0242901739478786 0.0345480938353865 0.0647411291455315 0.171508149026549</forward_prop_corr>
@@ -18730,9 +18690,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>15</out_version>
@@ -18785,7 +18742,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
                   <j_decay>3</j_decay>
                 </PropSink>
                 <ForwardProp>
@@ -18871,7 +18827,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Source>
-
                   <j_decay>3</j_decay>
                   <t_source>0</t_source>
                 </PropSource>
@@ -21428,7 +21383,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
                   <j_decay>3</j_decay>
                 </PropSink>
                 <ForwardProp>
@@ -21514,7 +21468,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Source>
-
                   <j_decay>3</j_decay>
                   <t_source>0</t_source>
                 </PropSource>
@@ -24112,7 +24065,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
             <j_decay>3</j_decay>
           </PropSink>
           <NamedObject>
@@ -26664,9 +26616,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -29348,7 +29297,6 @@
         </Params>
       </Config_info>
     </SinkSmear>
-
             </Propagator_info>
           </elem>
         </Forward_prop_infos>
@@ -31998,9 +31946,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -32038,7 +31983,6 @@
         <Source_file_info><seqsource>
       <id>799711885</id>
     </seqsource>
-
         </Source_file_info>
         <Source_record_info><SequentialSource>
       <version>1</version>
@@ -37254,7 +37198,6 @@
         </Params>
       </Config_info>
     </SequentialSource>
-
         </Source_record_info>
         <Source_correlator>
           <source_corr>0 0 0 0 0 0 0 0 0 0 0.00380277847832306 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</source_corr>

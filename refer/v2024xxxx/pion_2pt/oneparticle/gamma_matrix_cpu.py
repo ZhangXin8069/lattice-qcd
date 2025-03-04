@@ -1,49 +1,42 @@
 #!/beegfs/home/liuming/software/install/python/bin/python3
 import numpy as np
 import os
-
 #identity
 g0=np.zeros((4,4),dtype=complex)
 g0[0,0]=1.0+0.0*1j         #  1  0  0  0
 g0[1,1]=1.0+0.0*1j         #  0  1  0  0
 g0[2,2]=1.0+0.0*1j         #  0  0  1  0
 g0[3,3]=1.0+0.0*1j         #  0  0  0  1 
-
 #gamma1
 g1=np.zeros((4,4),dtype=complex)
 g1[0,3]=0.0+1.0*1j         #  0  0  0  i
 g1[1,2]=0.0+1.0*1j         #  0  0  i  0
 g1[2,1]=0.0-1.0*1j         #  0 -i  0  0
 g1[3,0]=0.0-1.0*1j         # -i  0  0  0
-
 #gamma2
 g2=np.zeros((4,4),dtype=complex)
 g2[0,3]=-1.0+0.0*1j        #  0  0  0 -1
 g2[1,2]=1.0+0.0*1j         #  0  0  1  0
 g2[2,1]=1.0+0.0*1j         #  0  1  0  0
 g2[3,0]=-1.0+0.0*1j        # -1  0  0  0
-
 #gamma3
 g3=np.zeros((4,4),dtype=complex)
 g3[0,2]=0.0+1.0*1j         #  0  0  i  0
 g3[1,3]=0.0-1.0*1j         #  0  0  0 -i
 g3[2,0]=0.0-1.0*1j         # -i  0  0  0
 g3[3,1]=0.0+1.0*1j         #  0  i  0  0
-
 #gamma4
 g4=np.zeros((4,4),dtype=complex)
 g4[0,2]=1.0+0.0*1j         #  0  0  1  0
 g4[1,3]=1.0+0.0*1j         #  0  0  0  1
 g4[2,0]=1.0+0.0*1j         #  1  0  0  0
 g4[3,1]=1.0+0.0*1j         #  0  1  0  0
-
 #gamma5
 g5=np.zeros((4,4),dtype=complex)
 g5[0,0]=1.0+0.0*1j         #  1  0  0  0
 g5[1,1]=1.0+0.0*1j         #  0  1  0  0
 g5[2,2]=-1.0+0.0*1j        #  0  0 -1  0
 g5[3,3]=-1.0+0.0*1j        #  0  0  0 -1
-
 def gamma(i):
 	if i==0: #identity
 		return g0
@@ -53,7 +46,6 @@ def gamma(i):
 		
 	elif i==2: #gamma2
 		return g2
-
 	elif i==3: #gamma3
 		return g3
 	
@@ -62,7 +54,6 @@ def gamma(i):
 	
 	elif i==5: #gamma5
 		return g5
-
 	elif i==6: #-gamma1*gamma4*gamma5 (gamma2*gamma3)
 		return np.matmul(g2,g3)
 		
@@ -127,7 +118,6 @@ def gamma(i):
 	else:
 		print("wrong gamma index")
 		os.sys.exit(-3)
-
 def gamma_index(g):
 	value=np.zeros((4),dtype=complex)
 	row=np.zeros((4),dtype=int)

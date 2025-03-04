@@ -1,5 +1,4 @@
 #!/bin/bash
-
 #SBATCH --job-name=b6.2_0.277
 ##SBATCH --partition=cpu6248R,i72c512g,cpueicc
 #SBATCH --partition=gpu-debug
@@ -16,10 +15,8 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --time="30:00"
 ##SBATCH --time="3-00:00:00"
-
 #SBATCH -n 2
 #SBATCH --gres=gpu:2
-
 module purge
 # module load compiler/devtoolset/7.3.1
 # module load mpi/openmpi/4.1.4/gnu-with-ucx
@@ -29,31 +26,22 @@ module purge
 module load cuda/11.4.4-gcc-10.3.0
 # module load libxml2/2.9.12-gcc-10.3.0
 module load openmpi/4.1.5-gcc-10.3.0 
-
 chroma=/public/home/sush/3pt_test/chroma/install_chroma/chroma_a100/chroma_a100/build/chroma/mainprogs/main/chroma
 # chroma=/public/home/chenc/Deuteron/run_chroma/chroma_gpu
 # chroma=/public/home/sunp/chroma-llvm_A100_hpcx_AMD/install/sm_80_omp/chroma-double_quda/bin/chroma
-
 chack_data=0
-
 conf_stare=10000
 gap=50
-
 conf=$[${conf_stare}+${gap}*${SLURM_ARRAY_TASK_ID}]
 # conf=$[${conf_stare}+${gap}*${SLURM_ARRAY_TASK_ID}]
-
 hadron=pion
 mass=-0.2770
 tsep=10
-
 conf_type=beta6.20_mu-0.2770_ms-0.2400_L24x72
-
 result_file=/public/home/sushihao/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L24x72/${hadron}_3pt_Px0Py0Pz0_ENV-1_conf${conf}_tsep${tsep}_mass${mass}_linkdir2_linkmax10.iog
 exe=./beta6.20_mu-0.2770_ms-0.2400_L24x72_creat.pion.py
 xml=./xml/beta6.20_mu-0.2770_ms-0.2400_L24x72/${hadron}/${hadron}_tsep${tsep}_mass${mass}_${conf}.xml
-
 quda_resource_path=/public/home/sushihao/chroma/chroma_run/xml/${conf_type}/proton/resource
-
 if [ ${chack_data} -eq 1 ]; then
     if [ -f ${result_file} ]; then
         echo result file exist

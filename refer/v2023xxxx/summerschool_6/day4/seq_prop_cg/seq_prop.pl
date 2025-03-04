@@ -1,18 +1,14 @@
 #!/usr/bin/perl
 ##
-
 $conf=$ARGV[0];
 $prefix=$ARGV[1];
-
 $save_path="../../class4_prop/C24P31";
 $l_mass="-0.2400";
-
 print <<"EOF";
 <?xml version="1.0"?>
 <chroma>
 <Param> 
   <InlineMeasurements>
-
     <elem>
         <annotation>
             Read the L prop
@@ -28,7 +24,6 @@ print <<"EOF";
             <parallel_io>true</parallel_io>
         </File>
     </elem>
-
     <elem>
       <Name>SINK_SMEAR</Name>
       <Frequency>1</Frequency>
@@ -53,12 +48,9 @@ print <<"EOF";
             <object_id>L_quark_propagator</object_id>
         </NamedObject>
     </elem>
-
 EOF
-
 @tseq_list = (3,4,5,6,7);
 foreach $tseq (@tseq_list){
-
 print <<"EOF";
     <elem>
       <Name>SEQSOURCE_FAST</Name>
@@ -98,7 +90,6 @@ print <<"EOF";
         <gauge_id>default_gauge_field</gauge_id>
       </NamedObject>
    </elem>
-
   <elem>
     <Name>PROPAGATOR</Name>
     <Frequency>1</Frequency>
@@ -134,8 +125,6 @@ print <<"EOF";
       <prop_id>prop_P0_tseq_${tseq}</prop_id>
     </NamedObject>
   </elem>
-
-
     <elem>
         <Name>ERASE_NAMED_OBJECT</Name>
         <Frequency>1</Frequency>
@@ -143,7 +132,6 @@ print <<"EOF";
         <object_id>seqsrc_tseq_${tseq}</object_id>
         </NamedObject>
     </elem>
-
   <elem>
     <annotation>
       Write the named object
@@ -160,8 +148,6 @@ print <<"EOF";
       <parallel_io>true</parallel_io>
     </File>
   </elem>
-
-
     <elem>
         <Name>ERASE_NAMED_OBJECT</Name>
         <Frequency>1</Frequency>
@@ -169,11 +155,8 @@ print <<"EOF";
         <object_id>prop_P0_tseq_${tseq}</object_id>
         </NamedObject>
     </elem>
-
 EOF
-
 }
-
 print <<"EOF";
     <elem>
         <Name>ERASE_NAMED_OBJECT</Name>
@@ -182,12 +165,9 @@ print <<"EOF";
         <object_id>smeared_L_quark_propagator</object_id>
         </NamedObject>
     </elem>
-
-
   </InlineMeasurements>
     <nrow>24 24 24 72</nrow>
 </Param>
-
   <RNG>
     <Seed>
       <elem>11</elem>
@@ -196,27 +176,10 @@ print <<"EOF";
       <elem>0</elem>
     </Seed>
   </RNG>
-
   <Cfg>
     <cfg_type>SCIDAC</cfg_type>
     <cfg_file>${save_path}/Configurations/CoulombGaugeFixed/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_${conf}_hyp0_gfixed3.scidac</cfg_file>
     <parallel_io>true</parallel_io>
   </Cfg>
-
 </chroma>
-
-
-
 EOF
-
-
-
-
-
-
-
-
-
-
-
-

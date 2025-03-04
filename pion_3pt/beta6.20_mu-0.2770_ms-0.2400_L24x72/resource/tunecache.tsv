@@ -1,5 +1,4 @@
 tunecache	1.1.0	1.1.0-c3781bc-dirty-sm_80	cpu_arch=x86_64,gpu_arch=sm_80,cuda_version=11.4.152	# Last updated Sun Aug 18 11:55:55 2024
-
           volume	name	aux	block.x	block.y	block.z	grid.x	grid.y	grid.z	shared_bytes	aux.x	aux.y	aux.z	aux.w	time	comment
      12x24x24x36	N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELi2ELb0ELb0EEENS1_16QDPJITDiracOrderIdLi4ELi3EEESt5tupleIJRNS_16ColorSpinorFieldERKS7_19QudaFieldLocation_sPdPKdEEEE	GPU-offline,cmem,vol=248832,parity=1,precision=8,order=11,Ns=4,Nc=3vol=248832,parity=1,precision=8,order=2,Ns=4,Nc=3,NonRelBasis	608	1	1	410	1	1	0	-1	-1	-1	-1	7.73514e-05	# 0.00 Gflop/s, 1235.29 GB/s, tuning took 0.018962 seconds at Sun Aug 18 11:54:36 2024
      12x24x24x36	N4quda15CopyColorSpinorILi4ELi3ENS_11colorspinor11FloatNOrderIdLi4ELi3ELi2ELb0ELb0EEES3_St5tupleIJRNS_16ColorSpinorFieldERKS5_19QudaFieldLocation_sPdPKdEEEE	GPU-offline,cmem,vol=248832,parity=1,precision=8,order=2,Ns=4,Nc=3vol=248832,parity=1,precision=8,order=2,Ns=4,Nc=3,PreserveBasis	32	1	1	7776	1	1	0	-1	-1	-1	-1	7.69463e-05	# 0.00 Gflop/s, 1241.79 GB/s, tuning took 0.019619 seconds at Sun Aug 18 11:54:36 2024

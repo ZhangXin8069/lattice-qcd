@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # run_dir="/public/home/liuming/LapH/contraction/python/Pentaquarks_v4/run_beta6.41_mu-0.2295_ms-0.2050_L32x96/part2/nv100-sug"
 run_dir="/public/home/zhangxin/lattice-lqcd/meson_run1110/meson_run1110/oneparticle"
 peram_dir="/public/group/lqcd/perambulators/beta6.41_mu-0.2295_ms-0.2050_L32x96/light"

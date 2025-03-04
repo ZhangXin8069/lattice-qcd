@@ -5,7 +5,6 @@ import fileinput
 import sympy as sp
 import lsqfit
 from iog_reader.iog_reader import iog_read
-
 class read_input:
     def __init__(
         self,
@@ -35,7 +34,6 @@ class read_input:
                 self.read_type=tmp[1]
             if(tmp[0]=='time_fold'):
                 self.time_fold=int(tmp[1])
-
             # the P part
             if(tmp[0]=='Px_stare'):
                 self.Px_stare=int(tmp[1])
@@ -65,7 +63,6 @@ class read_input:
                 self.ENV_end=int(tmp[1])
             if(tmp[0]=='ENV_gap'):
                 self.ENV_gap=int(tmp[1])
-
             # the file path part
             if(tmp[0]=='data_quark_3pt_corr_path'):
                 self.data_quark_3pt_corr_path=tmp[1]
@@ -80,7 +77,6 @@ class read_input:
             # plot parameter
             if(tmp[0]=='C2pt_type'):
                 self.C2pt_type=tmp[1]
-
 class data_analyse:
     def __init__(
         self,
@@ -279,7 +275,6 @@ class data_analyse:
             # def fndroot(eqnf,ini):
             #     sol = fsolve(eqnf,ini, xtol=1e-5)
             #     return sol
-
             # data_cosh_sample = np.array([fndroot(eff_mass_eqn(c2pt),ini) for c2pt in data_sample_ini[:,:]])
             # data_mean = np.mean(data_cosh_sample,axis=-2)
             data_err = np.sqrt(Ncnfg-1)*np.std(data_cosh_sample,axis=-2)
@@ -328,7 +323,6 @@ class data_analyse:
         self.PDF_err['PDF_%s_%s'%(data_type, flavour)] = np.std(PDF_3pt_2pt_sample, axis = -2)*np.sqrt(Ncnfg-1)
         self.PDF_cov['PDF_%s_%s'%(data_type, flavour)] = PDF_3pt_2pt_cov
         # PDF_3pt_2pt_data = np.array([PDF_3pt_2pt_mean,PDF_3pt_2pt_err]) #size = (2,data_1-1,t_sep+1)
-
     def link_analyse(self, data_type:str, flavour:str):
         if data_type == 'iog':
             N_ENV = 1
@@ -342,7 +336,6 @@ class data_analyse:
             link_err[...,tsep_indx,:] = np.mean(self.PDF_err['PDF_%s_%s'%(data_type, flavour)][:,:,tsep_indx,:,self.tsep[tsep_indx]//2-5:self.tsep[tsep_indx]//2+5], axis=-1)
         self.link_y['link_%s_%s'%(data_type, flavour)] = link_y
         self.link_err['link_%s_%s'%(data_type, flavour)] = link_err
-
     def plot_meff_2pt(self, data_type, y_range, name:str=None, save_name:str=None):
         if not name : name = '%s_meff_%dx%d_%s_%s'%(self.hadron,self.Nx,self.Nt,self.meff_type,data_type)
         if not save_name : save_name = '%s_meff_%dx%d_%s_%s'%(self.hadron,self.Nx,self.Nt,self.meff_type,data_type)
@@ -361,7 +354,6 @@ class data_analyse:
         plt.legend(fontsize=18)
         
         fig.savefig("%s/%s"%(self.save_path, '%s.pdf'%(save_name)))
-
     def plot_meff_ENV(self, y_range,name:str=None, save_name:str=None):
         if not name : name = '%s_meff_%dx%d_%s_ENV.pdf'%(self.hadron, self.Nx, self.Nt, self.meff_type)
         if not save_name : save_name = '%s_meff_%dx%d_%s_ENV.pdf'%(self.hadron, self.Nx, self.Nt, self.meff_type)
@@ -397,7 +389,6 @@ class data_analyse:
             C2pt_mean, C2pt_err = self.jackknife_ctr_err(C2pt_ENV)
             ax.errorbar(self.ENV, C2pt_mean, yerr=C2pt_err, alpha=0.5, marker = self.marker_array[tsep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(self.tsep[tsep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend()
-
         fig.savefig("%s/%s"%(self.save_path, '%s.pdf'%(save_name)))
     
     def plot_PDF_ENV(self, flavour, y_range, name:str=None, save_name:str=None):
@@ -466,7 +457,6 @@ class data_analyse:
             for ENV_indx in N_ENV_change:
                 ax.errorbar(range(link_y_change.shape[-1]) - normal, link_y_change[0,ENV_indx,0], yerr=link_err_change[0,ENV_indx,0], alpha=0.5, marker = self.marker_array[ENV_indx], capsize=3.5, capthick=1.5, label='%s_ENV:%s'%(data_type,ENV_array_change[ENV_indx]),linestyle='none',elinewidth=2) # fmt = 'bs'
                 plt.legend()
-
         fig.savefig("%s/%s"%(self.save_path, '%s.pdf'%(save_name)))
         
     def plot_link_indx_ENV(self, indx, y_range, name:str=None, save_name:str=None, normal:int=0, fold:int=0):
@@ -514,7 +504,6 @@ class data_analyse:
             ax.errorbar(X, Y, yerr=np.zeros_like(X), alpha=0.5, marker = self.marker_array[tsep_indx], capsize=3.5, capthick=1.5, label='%s_tsep%d'%('fit',self.tsep[tsep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
         
         fig.savefig("%s/%s"%(self.save_path, '%s.pdf'%(save_name)))
-
         
 def min_fun_descent(function, X:np.ndarray, X0:np.ndarray, type:str):
     alpha = 1e-12
@@ -548,8 +537,6 @@ def min_fun_descent(function, X:np.ndarray, X0:np.ndarray, type:str):
     function_value = (float)(function.subs({X[i]: X0[i] for i in range(N)}).evalf())
     print(function_value)
     return X0, function_value
-
-
 def min_fun_newton(function, X_1, X_2, X0_1, X0_2):
     max_cycle_index = 200
     alpha = 0.01
@@ -593,8 +580,6 @@ def min_fun_newton(function, X_1, X_2, X0_1, X0_2):
     function_value = (float)(function[0].subs({X_1: X0_1, X_2: X0_2}).evalf())
     parameter = np.array([X0_1, X0_2, function_value])
     return parameter
-
-
 def c_square(data, function, X_1, X_2, X0_1, X0_2):
     n = data.shape[0]
     t = data.shape[1]
@@ -613,12 +598,7 @@ def c_square(data, function, X_1, X_2, X0_1, X0_2):
     
     c_square_mean = np.sum(c_square_ni, axis = 0)/n
     return c_square_mean
-
-
-
-
 # Para = min_fun(fit_function, )
-
 # def dispersion_fit()
 # def plt():
     # figure = plt.figure()

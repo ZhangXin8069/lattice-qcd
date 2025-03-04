@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
-
-
 <chroma>
   <Input><chroma>
-
         <annotation>
             Quark project 
                 3pt test
         </annotation>
         <Param> 
             <InlineMeasurements>  
-
             <elem>
                 <!-- Coulomb gauge fix -->
                 <Name>COULOMB_GAUGEFIX</Name>
@@ -30,7 +26,6 @@
                 </NamedObject>
             </elem>
             
-
             <elem>
                 <Name>MAKE_SOURCE</Name>
                 <Frequency>1</Frequency>
@@ -59,7 +54,6 @@
                 </NamedObject>
             </elem>
               
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -83,7 +77,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -138,7 +131,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>coulomb_fix_gauge</gauge_id>
@@ -146,7 +138,6 @@
                     <prop_id>prop</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
                 <Name>SINK_SMEAR</Name>
                 <Frequency>1</Frequency>
@@ -176,7 +167,6 @@
                 </NamedObject>
             </elem>
               
-
             <elem>
                 <annotation>
                     Compute the hadron spectrum.
@@ -206,7 +196,6 @@
                 <output>/public/home/sush/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L24x72/proton/nucleon_2pt_Px0Py0Pz0_ENV-1_conf12250_tsep-1_mass-0.2770.iog</output>
             </elem>
                 
-
             <elem>
                 <Name>SEQSOURCE_FAST</Name>
                 <SmearedProps>true</SmearedProps>
@@ -246,7 +235,6 @@
                 </NamedObject>
             </elem>
         
-
             <elem>
                 <Name>SEQSOURCE_FAST</Name>
                 <SmearedProps>true</SmearedProps>
@@ -285,7 +273,6 @@
                 </NamedObject>
             </elem>
         
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -309,7 +296,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -364,7 +350,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>coulomb_fix_gauge</gauge_id>
@@ -372,7 +357,6 @@
                     <prop_id>seq_prop_U</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -396,7 +380,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -451,7 +434,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>coulomb_fix_gauge</gauge_id>
@@ -459,7 +441,6 @@
                     <prop_id>seq_prop_D</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
             <annotation>
                 "a_0" just indicates the Gamma =1; therefore the output gamma is the corret ones int eh chroma gamma index
@@ -497,9 +478,7 @@
             </BuildingBlocks>
             <xml_file>/public/home/sush/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L24x72/proton/xml/nucleon_3pt_Px0Py0Pz0_ENV-1_conf12250_tsep10_mass-0.2770_linkdir2_linkmax10.xml</xml_file>
         </elem>
-
               
-
             <elem>
             <annotation>
                 "a_0" just indicates the Gamma =1; therefore the output gamma is the corret ones int eh chroma gamma index
@@ -537,16 +516,12 @@
             </BuildingBlocks>
             <xml_file>/public/home/sush/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L24x72/proton/xml/nucleon_3pt_Px0Py0Pz0_ENV-1_conf12250_tsep10_mass-0.2770_linkdir2_linkmax10.xml</xml_file>
         </elem>
-
               
-
             </InlineMeasurements>    
             
             <nrow>24 24 24 72</nrow>
-
             
         </Param>
-
         <RNG>
             <Seed>
             <elem>11</elem>
@@ -555,15 +530,12 @@
             <elem>0</elem>
             </Seed>
         </RNG>
-
         <Cfg>
             <cfg_type>SCIDAC</cfg_type>
             <cfg_file>/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_12250.lime</cfg_file>
             <parallel_io>true</parallel_io>
         </Cfg>
-
     </chroma>
-
   </Input>
   <ProgramInfo>
     <code_version>
@@ -3127,7 +3099,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
   </Config_info>
   <Observables>
     <w_plaq>0.53557949947798</w_plaq>
@@ -5732,9 +5703,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -5850,7 +5818,6 @@
         <qudaSmearingP>false</qudaSmearingP>
       </SmearingParam>
     </Source>
-
             <j_decay>3</j_decay>
             <t_source>0</t_source>
           </Param>
@@ -8398,11 +8365,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Observables>
           <w_plaq>0.53557949947798</w_plaq>
@@ -11075,11 +11037,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -11117,7 +11074,6 @@
         <Source_file_info><make_source>
       <id>788088944</id>
     </make_source>
-
         </Source_file_info>
         <Source_record_info><MakeSource>
       <version>1</version>
@@ -13684,7 +13640,6 @@
         </Params>
       </Config_info>
     </MakeSource>
-
         </Source_record_info>
         <Source_correlator>
           <source_corr>101315.169617633 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</source_corr>
@@ -13792,7 +13747,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
             <j_decay>3</j_decay>
           </Param>
           <NamedObject>
@@ -16340,11 +16294,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Observables>
           <w_plaq>0.53557949947798</w_plaq>
@@ -16379,7 +16328,6 @@
         <Prop_file_info><propagator>
       <id>788089011</id>
     </propagator>
-
         </Prop_file_info>
         <Prop_record_info><Propagator>
       <version>1</version>
@@ -19019,7 +18967,6 @@
         </Params>
       </Config_info>
     </Propagator>
-
         </Prop_record_info>
         <Forward_prop_correlator>
           <forward_prop_corr>6066.73846816489 831.172570717433 387.349620391124 257.033104975583 203.720855627743 165.719345173895 134.432610292847 110.829717121433 95.7144083274116 82.9167789448916 71.0418650482757 59.6936225213048 48.5078638663433 39.9810186755385 33.8650389637942 28.5157334536576 24.078500281767 20.5191576290397 17.2189853803263 13.5396255698249 10.4475110772439 8.50443888678549 7.09092282023245 5.93968688208399 5.18342107041386 4.36983995874327 3.80836981194491 3.43526858345368 3.11732723921124 2.8822376843256 2.65821418641956 2.4866986655668 2.2555171273542 2.06554296669119 1.9304360167159 1.82045476068136 1.80348355457398 1.82677577155838 1.89903209546217 1.8953145010887 1.91475253447578 2.06266078409922 2.26951907062743 2.60046168333016 3.09763030749938 3.9015096396725 5.00264619764246 6.65622424860237 7.76392820602162 8.3103331134046 9.1630941830345 10.3033694185958 11.9131902983662 13.9722266608248 16.3256592903256 19.3056524873197 23.7287512498088 28.7191672977421 34.16152813321 40.7115800103579 49.5325501233075 59.0105123333392 67.1237952223828 78.9728005388284 93.5804928957885 112.873391432032 138.602511297307 170.174724930604 213.681776744587 272.332812775007 391.711674725685 825.266730929</forward_prop_corr>
@@ -21604,11 +21551,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>15</out_version>
@@ -21668,7 +21610,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
                   <j_decay>3</j_decay>
                 </PropSink>
                 <ForwardProp>
@@ -21760,7 +21701,6 @@
         <qudaSmearingP>false</qudaSmearingP>
       </SmearingParam>
     </Source>
-
                   <j_decay>3</j_decay>
                   <t_source>0</t_source>
                 </PropSource>
@@ -24324,7 +24264,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
                   <j_decay>3</j_decay>
                 </PropSink>
                 <ForwardProp>
@@ -24416,7 +24355,6 @@
         <qudaSmearingP>false</qudaSmearingP>
       </SmearingParam>
     </Source>
-
                   <j_decay>3</j_decay>
                   <t_source>0</t_source>
                 </PropSource>
@@ -27014,7 +26952,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
             <j_decay>3</j_decay>
           </PropSink>
           <NamedObject>
@@ -29567,11 +29504,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -32266,7 +32198,6 @@
         </Params>
       </Config_info>
     </SinkSmear>
-
             </Propagator_info>
           </elem>
           <elem>
@@ -34928,7 +34859,6 @@
         </Params>
       </Config_info>
     </SinkSmear>
-
             </Propagator_info>
           </elem>
         </Forward_prop_infos>
@@ -34983,7 +34913,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Sink>
-
             <j_decay>3</j_decay>
           </PropSink>
           <NamedObject>
@@ -37535,11 +37464,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -40234,7 +40158,6 @@
         </Params>
       </Config_info>
     </SinkSmear>
-
             </Propagator_info>
           </elem>
         </Forward_prop_infos>
@@ -42884,11 +42807,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -42926,7 +42844,6 @@
         <Source_file_info><seqsource>
       <id>788089018</id>
     </seqsource>
-
         </Source_file_info>
         <Source_record_info><SequentialSource>
       <version>1</version>
@@ -50813,7 +50730,6 @@
         </Params>
       </Config_info>
     </SequentialSource>
-
         </Source_record_info>
         <Source_correlator>
           <source_corr>0 0 0 0 0 0 0 0 0 0 0.177715865596929 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</source_corr>
@@ -53536,11 +53452,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -53578,7 +53489,6 @@
         <Source_file_info><seqsource>
       <id>788089019</id>
     </seqsource>
-
         </Source_file_info>
         <Source_record_info><SequentialSource>
       <version>1</version>
@@ -58807,7 +58717,6 @@
         </Params>
       </Config_info>
     </SequentialSource>
-
         </Source_record_info>
         <Source_correlator>
           <source_corr>0 0 0 0 0 0 0 0 0 0 0.0121012168280505 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</source_corr>

@@ -1,6 +1,4 @@
-
 #include 	"io_general_class.h"
-
 double effective_mass(int nt_h,int it,double a,double b,int flag,double x1,double x2)
 {
     if(flag==0)return log(a/b);
@@ -8,7 +6,6 @@ double effective_mass(int nt_h,int it,double a,double b,int flag,double x1,doubl
     double rtn=0.5*(x1+x2);
     double ch1,ch2,sh1,sh2;
     double fun,dfdx,dx;
-
     for(int iter=0;iter<1000;iter++)
     {
        ch1=cosh(pt1*rtn);sh1=sinh(pt1*rtn);
@@ -27,8 +24,6 @@ double effective_mass(int nt_h,int it,double a,double b,int flag,double x1,doubl
     }
     return fabs(rtn);
 }
-
-
 void jack(double* res,int nconf,int nd, int nc, double* res_jk)
 {
     int i,iconf;
@@ -39,7 +34,6 @@ void jack(double* res,int nconf,int nd, int nc, double* res_jk)
     if(nconf==1) for(i=0;i<nc;i++) res_jk[i]=aver[i];
     free(aver);
 }
-
 void anti_jack(double* res,int nconf,int nd, int nc, double* res_jk)
 {
     int i,iconf;
@@ -50,21 +44,15 @@ void anti_jack(double* res,int nconf,int nd, int nc, double* res_jk)
     if(nconf==1) for(i=0;i<nc;i++) res_jk[i]=aver[i];
     free(aver);
 }
-
-
 void jacksig(double* res,int nconf,int nd, int nc, double* aver,double* sig)
 {
     int i,iconf;
-
     for(i=0;i<nc;i++) {aver[i]=0.0;sig[i]=0.0;}
     for(iconf=0;iconf<nconf;iconf++) for(i=0;i<nc;i++) aver[i]+=res[nd*iconf+i];
     for(i=0;i<nc;i++) aver[i]/=nconf;
     for(iconf=0;iconf<nconf;iconf++) for(i=0;i<nc;i++) sig[i]+=pow(aver[i]-res[nd*iconf+i],2);
     for(i=0;i<nc;i++) sig[i]=sqrt(sig[i]*(nconf-1)/(nconf));
-
 }
-
-
 int datatype::name_c2i(char *name)
 {
     if(!strcmp(name,"dim_complex"))return dim_complex;
@@ -82,7 +70,6 @@ int datatype::name_c2i(char *name)
     if(!strcmp(name,"dim_bootstrap"))return dim_bootstrap;
     return 0;
 }
-
 void datatype::name_i2c(int ind,char *name)
 {
     if(ind==dim_complex){sprintf(name,"dim_complex");return;}
@@ -101,8 +88,6 @@ void datatype::name_i2c(int ind,char *name)
     if(ind==dim_bootstrap){sprintf(name,"dim_bootstrap");return;}
     sprintf(name,"none");
 }
-
-
     void datatype::add_dimension(int name,int size)
     {
        int icount=ndim;
@@ -111,14 +96,12 @@ void datatype::name_i2c(int ind,char *name)
         for(int i=0;i<size;i++) dim[icount].indices[i]=i;
         ndim++;
     }
-
     void datatype::add_dimension(int name,int size,int *list)
     {
        int icount=ndim;
        add_dimension(name,size);
         for(int i=0;i<size;i++) dim[icount].indices[i]=list[i];
     }
-
     void datatype::add_dimension(int name,int size,double *list)
     {
        int icount=ndim;
@@ -184,8 +167,6 @@ void datatype::name_i2c(int ind,char *name)
        double cut=(slim==true)?1e-15:-1.0;
        print_all(cut);
     }
-
-
     void general_data_base::print_all(double cut)
     {
         print();
@@ -211,7 +192,6 @@ void datatype::name_i2c(int ind,char *name)
         }
         fflush(stdout);
     }
-
      void general_data_base::initialize(int flag)
      {
         if(data!=NULL){delete [] data;data=NULL;}
@@ -239,7 +219,6 @@ void datatype::name_i2c(int ind,char *name)
         {
                 printf("Failed opening file %s for read.\n", name);
         }
-
         if(fread(&type, sizeof(filetype), 1, fp)!=1)
         {
                 printf("Failed reading the head of file %s.\n", name);
@@ -256,7 +235,6 @@ void datatype::name_i2c(int ind,char *name)
         {
                 printf("Failed opening file %s for read.\n", name);
         }
-
         if(fwrite(&type, sizeof(filetype), 1, fp)!=1)
         {
                 printf("Failed reading the head of file %s.\n", name);
@@ -339,7 +317,6 @@ void datatype::name_i2c(int ind,char *name)
      }
 //io
 ///////////////
-
      
      double *general_data_base::seek(int n,...)
      {
@@ -409,7 +386,6 @@ void datatype::name_i2c(int ind,char *name)
           if(move_flag==0)res.add_dimension(tmp.dim[ind]);
           return 0;
      }
-
      general_data_base* general_data_base::set_pointer(general_data_base &res,general_data_base &tmp)
      {
         if(&res==this)
@@ -515,7 +491,6 @@ void datatype::name_i2c(int ind,char *name)
             res.data[is1*size2+is2]+=ptmp->data[(is1*nc+ix)*size2+is2];
         return 0;
      }
-
      void datatype::print_void_ind(int name)
      {
         char ctmp[100];name_i2c(name,ctmp);
@@ -605,7 +580,6 @@ void datatype::name_i2c(int ind,char *name)
          
          
          pick(res,dim_conf,0,nc_new-1);
-
          general_data_base tmp("");
          tmp.type=res.type;tmp.dim[ic].n_indices=nc_bin;
          tmp.initialize();
@@ -628,7 +602,6 @@ void datatype::name_i2c(int ind,char *name)
          res.aver(res,dim_conf);
      }
      
-
      int datatype::remove_ind(int name)
      {
          int ind_f=find_dim(name);
@@ -706,7 +679,6 @@ void datatype::name_i2c(int ind,char *name)
         delete [] ind;
         return 0;
      }     
-
      int general_data_base::exclude(general_data_base &res,int name,int index)
      {
         int ind=find_dim(name);
@@ -753,8 +725,6 @@ void datatype::name_i2c(int ind,char *name)
           fflush(stdout);
           return 0;
      }
-
-
      int general_data_base::eff_mass(general_data_base &res,int fold_type,int nt2,int it_st)
      {
           int inds[3];
@@ -766,7 +736,6 @@ void datatype::name_i2c(int ind,char *name)
           for(int j=0;j<inds[2];j++)
           {
              double min=0.0,max=10.0;
-
              int it0=(it-it_st-1+nt2*2)%(nt2*2);
              res.data[(i*nt+it)*inds[2]+j]=effective_mass(nt2,it0,data[(i*nt+it-1)*inds[2]+j],data[(i*nt+it)*inds[2]+j]
 		,fold_type);
@@ -832,8 +801,6 @@ void datatype::name_i2c(int ind,char *name)
         }
         return 0;
      }
-
-
       int general_data_base::bootstrap_sample(general_data_base &res,const int_rand& ran)
       {
         int ic=find_dim(dim_conf);
@@ -844,22 +811,18 @@ void datatype::name_i2c(int ind,char *name)
         res.initialize();
         int size1,size2;
         set_size(ic,size1,size2);
-
         int r[ncfg];
         for(int i=0;i<ncfg;i++) r[i]=ran.i_rand(ncfg);
-
         for(int i=0;i<size1;i++)
         for(int j=0;j<ncfg;j++)
         for(int k=0;k<size2;k++)
            res.data[(i*ncfg+j)*size2+k]=data[(i*ncfg+r[j])*size2+k];
         return 0;
       }
-
       int general_data_base::bootstrap(general_data_base &res,int nboot,const int_rand& r)
       {
         int ic=find_dim(dim_conf);
         if(ic<0){print_void_ind(dim_conf);return -1;}
-
         general_data_base tmp(""),*ptmp=set_pointer(res,tmp);copy(*ptmp);
         res.type=ptmp->type;
         int nconf=ptmp->dim[ic].n_indices;
@@ -868,7 +831,6 @@ void datatype::name_i2c(int ind,char *name)
         for(int i=0;i<nboot;i++)res.dim[ic].indices[i]=i;
         res.initialize();
 //        res.print();
-
         int size1,size2;
         set_size(ic,size1,size2);
         
@@ -894,12 +856,9 @@ void datatype::name_i2c(int ind,char *name)
      
         va_end(pn);
      }*/
-
-
 	void		data_iterator::sort_indices(int *pind, int nind)
 	{
 		int	i, j, t;
-
 		for(i=0; i<nind; i++)
 			for(j=i+1; j<nind; j++)
 				if(pind[i]>pind[j])
@@ -909,18 +868,15 @@ void datatype::name_i2c(int ind,char *name)
 					pind[j] = t;
 				}
 	}
-
 	void		data_iterator::copy_data()
 	{
 		int	i;
 		char	localbuf[N_MAX_STRING];
-
 		for(i=0; i<pdata->size; i++)
 		{
 			type_disp2index(&pdata->type, runningdims+nrunningdims, i);
 			pdata->data[i] = rawdata.data[type_index2disp(&rawdata.type, runningdims)];
 		}
-
 		strcpy(namebuf, "iter");
 		for(i=0; i<nrunningdims; i++)
 		{
@@ -929,12 +885,9 @@ void datatype::name_i2c(int ind,char *name)
 		}
 		strcpy(pdata->name, namebuf);
 	}
-
-
 	data_iterator	data_iterator::operator++()
 	{
 		int	i, j, k;
-
 		for(i=nrunningdims-1; i>=0; i--)
 		{
 			for(j=0; j<rawdata.ndim; j++)
@@ -956,7 +909,6 @@ void datatype::name_i2c(int ind,char *name)
 				break;
 			}
 		}
-
 		if(i<0)
 		{
 			delete pdata;
@@ -964,14 +916,10 @@ void datatype::name_i2c(int ind,char *name)
 		}
 		else
 			copy_data();
-
 		return *this;
 	}
-
-
 int check_dim(one_dim &a,one_dim &b)
 {
-
          if(a.n_indices==b.n_indices)
          {
             int ic=0;
@@ -991,19 +939,15 @@ int check_dim(one_dim &a,one_dim &b)
              return 1;
            }
 }
-
 int check_index(datatype &a, datatype &b)
 {
-
      if(a.ndim!=b.ndim)
      {printf("Imposible to combine files with different n_dim, exit\n");return -1;}
-
      int icount=0,index=a.ndim;
      for(int k=0;k<a.ndim;k++)
      if(a.dim[k].type==b.dim[k].type)
      {
          int ind=check_dim(a.dim[k],b.dim[k]);
-
          if(ind==-1)
          {printf("index of dimension %d is not match, exit\n",k);
           for(int i=0;i<a.dim[k].n_indices;i++)
@@ -1028,10 +972,6 @@ int check_index(datatype &a, datatype &b)
          printf("type of dimension %4d is not match (%20s,%20s), exit\n",k,
              name1,name2);
      }
-
      return index;
      //return the index with different indices. return a.ndim if the datetype is totally the same
-
 }
-
-

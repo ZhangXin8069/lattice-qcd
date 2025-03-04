@@ -1,19 +1,15 @@
 #!/usr/bin/perl
 ##
-
 $conf=$ARGV[0];
 $prefix=$ARGV[1];
-
 $save_path="/dssg/home/acct-phyww/phyww/qazhang/training_camp/clqcd/C24P31/";
 $quark_mass_l="-0.2770";
 $quark_mass_s="-0.2400";
-
 print <<"EOF";
 <?xml version="1.0"?>
 <chroma>
 <Param> 
   <InlineMeasurements>
-
     <elem>
         <annotation>
             Read the L prop
@@ -29,7 +25,6 @@ print <<"EOF";
             <parallel_io>true</parallel_io>
         </File>
     </elem>
-
     <elem>
         <annotation>
             Read the S prop
@@ -45,8 +40,6 @@ print <<"EOF";
             <parallel_io>true</parallel_io>
         </File>
     </elem>
-
-
     <elem>
       <annotation>
          Compute the measurements you build
@@ -64,11 +57,9 @@ print <<"EOF";
         <file_name>${prefix}/Data/2pt_${conf}.dat.iog</file_name>
        </Param>
     </elem>
-
   </InlineMeasurements>
     <nrow>24 24 24 72</nrow>
 </Param>
-
   <RNG>
     <Seed>
       <elem>11</elem>
@@ -77,27 +68,10 @@ print <<"EOF";
       <elem>0</elem>
     </Seed>
   </RNG>
-
   <Cfg>
     <cfg_type>SCIDAC</cfg_type>
     <cfg_file>${save_path}/Configurations/CoulombGaugeFixed/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_${conf}_hyp0_gfixed3.scidac</cfg_file>
     <parallel_io>true</parallel_io>
   </Cfg>
-
 </chroma>
-
-
-
 EOF
-
-
-
-
-
-
-
-
-
-
-
-

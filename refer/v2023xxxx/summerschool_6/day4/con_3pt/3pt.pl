@@ -1,23 +1,16 @@
 #!/usr/bin/perl
 ##
-
 $conf=$ARGV[0];
 $prefix=$ARGV[1];
-
-
 $save_path="../../class4_prop/C24P31";
 $l_mass="-0.2400";
 $seqp_path="../Save_prop_data/Save_SeqProp";
-
-
-
 print <<"EOF";
 <?xml version="1.0"?>
 <chroma>
 <Param> 
   <InlineMeasurements>
 EOF
-
 @tseq_list = (3,4,5,6,7);
 foreach $tseq (@tseq_list){
 print <<"EOF";
@@ -36,7 +29,6 @@ print <<"EOF";
             <parallel_io>true</parallel_io>
         </File>
     </elem>
-
     <elem>
         <annotation>
             Read the Seq prop
@@ -52,7 +44,6 @@ print <<"EOF";
             <parallel_io>true</parallel_io>
         </File>
     </elem>
-
     <elem>
       <annotation>
          Compute the measurements you build
@@ -69,7 +60,6 @@ print <<"EOF";
         <file_name>${prefix}/Data/3pt_${conf}_tseq${tseq}.dat.iog</file_name>
        </Param>
     </elem>
-
     <elem>
         <Name>ERASE_NAMED_OBJECT</Name>
         <Frequency>1</Frequency>
@@ -84,15 +74,12 @@ print <<"EOF";
             <object_id>Seq_propagator</object_id>
         </NamedObject>
     </elem>
-
 EOF
 }
-
 print <<"EOF";
   </InlineMeasurements>
     <nrow>24 24 24 72</nrow>
 </Param>
-
   <RNG>
     <Seed>
       <elem>11</elem>
@@ -101,27 +88,10 @@ print <<"EOF";
       <elem>0</elem>
     </Seed>
   </RNG>
-
   <Cfg>
     <cfg_type>SCIDAC</cfg_type>
     <cfg_file>${save_path}/Configurations/CoulombGaugeFixed/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_${conf}_hyp0_gfixed3.scidac</cfg_file>
     <parallel_io>true</parallel_io>
   </Cfg>
-
 </chroma>
-
-
-
 EOF
-
-
-
-
-
-
-
-
-
-
-
-

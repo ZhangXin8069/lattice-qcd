@@ -5,10 +5,8 @@ inline void memadd(double *dest,double *src,int size,double fac=1.0)
     for(int i=0;i<size;i++)dest[i]+=src[i]*fac;
 }
 #endif
-
 #ifndef IO_GENERAL_CL_H
 #define IO_GENERAL_CL_H
-
 #define _CPP_
 #include	"io_general.h"
 #include <math.h>
@@ -16,13 +14,9 @@ inline void memadd(double *dest,double *src,int size,double fac=1.0)
 #include <string.h>
 #include <stdlib.h>
 #include <vector>
-
 #define INF -65535
-
 double effective_mass(int nt_h,int it,double a,double b,int flag=0,double x1=0.0,double x2=10.0);
-
 int name_c2i(char *name);
-
 struct int_rand
 {
     int virtual i_rand(int max) const
@@ -30,7 +24,6 @@ struct int_rand
       return rand()%max;
     }
 };
-
 class datatype
 {
 public:
@@ -49,13 +42,10 @@ public:
     {type.head.n_dimensions=0;dim=type.head.dimensions;}
     
     void add_dimension(int name,int size);
-
     void add_dimension(int name,int size,int *list);
-
     void add_dimension(int name,int size,double *list);
     
     void add_dimension(one_dim &src);
-
     void insert_dimension(int name,int id);
     
     void clear_ind()
@@ -97,19 +87,14 @@ public:
      
     int common_ind(datatype &res,int name,one_dim &dest);
 };
-
 class general_data_base:public datatype
 {
-
      general_data_base* set_pointer(general_data_base &res,general_data_base &tmp);
-
 public:
      
      void set_size(int ind_f,int &size1,int &size2);
-
 //     filetype type;
      double * data;
-
 ////////////////////
 // initialize
      general_data_base()
@@ -123,9 +108,7 @@ public:
          ndim=0;
          data=NULL;
      }
-
      void initialize(int flag=0);
-
      general_data_base(filetype &type0,const char * namex)
      {    sprintf(name,"%s",namex);data=NULL;type=type0;initialize(); }
     
@@ -135,7 +118,6 @@ public:
      ~general_data_base(){if(data!=NULL) {delete [] data;data=NULL;}}
 // initialize
 ////////////////////
-
 ///////////////
 //io
      void clear(){if(data!=NULL&&size>0)memset(data,0,sizeof(double)*size);}
@@ -201,9 +183,7 @@ public:
 ///////////////
  
      void print_all(bool slim=false);
-
      void print_all(double cut);
-
      double * seek(int n,...);
      
      int new_data(general_data_base &dest,int name,int new_size);
@@ -211,7 +191,6 @@ public:
      int normal();
   
      int jackknife(general_data_base &res);
-
      int antijack(general_data_base &res);
      
      int sum(general_data_base &res,int name);
@@ -219,22 +198,18 @@ public:
      int aver(general_data_base &res,int name,int flag=1);
      
      int aver_cfg(general_data_base &res,int aver_flag=1);
-
      int make_cfg_bin(general_data_base &res,int bin_size);
-
      int aver_cfg_bin(general_data_base &res,int bin_size);
      
      int nind_cfg();
      
      int pick(general_data_base &res,int name,int ist,int ied=INF);
-
      int pick(general_data_base &res,int name,int size,int* list,int flag=1);
      
      int pick(general_data_base &res,int name,std::vector<int> list,int flag=0)
      {
         return pick(res,name,list.size(),list.data(),flag);
      }
-
      int pick(general_data_base &res,int name,std::vector<double> list)
      {
         int *ilist=new int[list.size()];
@@ -246,7 +221,6 @@ public:
         int r_type=(type==-1)?dimX.type:type;
         return pick(res,r_type,dimX.n_indices,dimX.indices,0);
      }
-
      int exclude(general_data_base &dest,int name,int index);
      
      int mom_aver(general_data_base &dest,int nmom);
@@ -256,7 +230,6 @@ public:
 //     int eff_mass(general_data_base &dest,int fold_type,int nt2,int it_st);
      
      int move_ind(general_data_base &dest,int name,int move_flag);
-
      int move_ind_head(general_data_base &dest,int name,int move_flag);
      
      int combine(general_data_base &a,general_data_base &b,bool sort=true);
@@ -264,13 +237,10 @@ public:
      int eff_mass(general_data_base &res,int fold_type,int nt2,int it_st);
  
      int bootstrap_sample(general_data_base &res,const int_rand& r=int_rand());
-
      int bootstrap(general_data_base &res,int nboot,const int_rand& r=int_rand());
      
 };
-
 #define	N_MAX_STRING	1024
-
 class	data_iterator
 {
 	private:
@@ -278,21 +248,16 @@ class	data_iterator
 		int		nrunningdims;
 		int		runningdims[N_MAX_DIMENSIONS][2];
 		char		namebuf[N_MAX_STRING];
-
 		void		sort_indices(int *pind, int nind);
-
 		void		copy_data();
-
 	public:
 		general_data_base*	pdata;
-
 				data_iterator(general_data_base& rawdata, int nfixdims, ...)
 					:rawdata(rawdata)
 				{
 					filetype	ty;
 					va_list		params;
 					int		i, j, k;
-
 					ty.head.n_dimensions = nfixdims;
 					va_start(params, nfixdims);
 					for(i=0; i<nfixdims; i++)
@@ -314,9 +279,7 @@ class	data_iterator
 						}
 					}
 					va_end(params);
-
 					pdata = new general_data_base(ty, namebuf);
-
 					nrunningdims = 0;
 					for(j=0; j<rawdata.ndim; j++)
 					{
@@ -332,21 +295,11 @@ class	data_iterator
 					}
 					for(i=0; i<ty.head.n_dimensions; i++)
 						runningdims[nrunningdims+i][0] = ty.head.dimensions[i].type;
-
 					copy_data();
 				}
-
 				~data_iterator() { }
-
 		data_iterator	operator++();
-
 };
-
-
-
 int check_dim(one_dim &a,one_dim &b);
-
 int check_index(datatype &a, datatype &b);
-
-
 #endif

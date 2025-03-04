@@ -8,11 +8,8 @@ import lsqfit
 import gvar as gv
 from prettytable import PrettyTable
 import sys
-
 # sys.path.append("/public/home/zhangxin/lattice-qcd/laph/di_lambda_c")
 from lsq_tools import *
-
-
 # data loading
 data_all=np.load("/public/home/zhangxin/lattice-qcd/meson_run1110/numpy/pion48.npy")
 Nsamples=data_all.shape[0]
@@ -20,27 +17,21 @@ print("Nsamples=",Nsamples)
 print("Nt=",data_all.shape[1])
 Nt0=96   # length of correlation function
 nbsamples = 100   # bootstrap number
-
 # particle information
 state="F48P30"
 object= "Pion"
-
-
 # fitting method select and input
 jack=True#False  # choose jackknife or bootstrap
 if jack==True:
     boot_corr = jackknife(data_all)
 else:
     boot_corr = bootstrap(data_all , nbsamples)
-
 shape = "onestate"  # choose the number of exponential of fitting function
 exp_E=0.12          # initial of energy levels
 start_t=15          # left side of fitting section 
 end_t=40            # right side of fitting section
 deltat=  10         # how long can left side move
 select_t=20         # final start timeslice
-
-
 # plot input
 ymin=0.112
 ymax=0.132
@@ -50,16 +41,13 @@ st0 = time.time()
 contract = boot_corr[:,:Nt0//2]/boot_corr[0,0]  # make the first data equal to 1 to make the fitting easier
 N = contract.shape[0]  # your final number of samples
 print("N=", N)
-
 # meson effective mass
 meson_mass =np.arccosh((np.roll(contract, -1, 1) + np.roll(contract, 1, 1)) / (2 * contract)) 
 # baryon effective mass
 # meson_mass =np.log(np.roll(contract, 1, 1) / (contract)) 
-
 erros = np.std(meson_mass, 0)
 if jack==True:
     erros=erros*np.sqrt(Nsamples-1) 
-
 # covariance matrix
 M_ij = contract - np.mean(contract, 0)
 M_ij = np.matmul(M_ij.T, M_ij) 
@@ -69,23 +57,18 @@ if jack==True:
 else:
     M_ij = M_ij/nbsamples
     print("boot!!")
-
 # fitting function
 def efunc(x, p):
     if shape == "onestate":
         return p["a0"]/np.exp(p["E0"]*(Nt0//2)) * np.cosh(-p["E0"] * (x-Nt0//2))
     elif shape =="twostate":
         return p["a0"] * np.exp(-p["E0"] * x) + (p["a1"]) * np.exp(-(p["E0"]+p["dE"]**2) * x)
-
-
 pr_arr_corr = np.zeros([N, 2])
 T = np.arange(Nt0//2)
 chi_square = np.zeros([1, deltat])
 mass_mean = np.zeros([1, deltat])
 error_mean = np.zeros([1, deltat])
 save_E = np.zeros([deltat,N])
-
-
 for t1 in range(start_t, start_t + deltat):
     st1=time.time()
     print("left:", t1, "right:",  end_t)
@@ -96,7 +79,6 @@ for t1 in range(start_t, start_t + deltat):
     if shape=="twostate":
         p0["dE"] = 0.5
         p0["a1"] = 0.5
-
     gv_corr = gv.gvar(np.mean(contract,0), M_ij) # average data with covariance matrix
     # fitting of anverage
     fit_mean = lsqfit.nonlinear_fit(data=(T[t1 : end_t + 1], gv_corr[t1 : end_t + 1]), fcn=efunc,p0=p0)
@@ -124,7 +106,6 @@ for t1 in range(start_t, start_t + deltat):
     end = end_t
     E_mean = mass_mean[0][t1 - start_t]  
     E_error = error_mean[0][t1 - start_t] 
-
     fig = plt.figure()    
     plt.errorbar(x=T,y=np.mean(meson_mass,0),yerr=erros,ecolor="cornflowerblue",linestyle="none",\
         mec="cornflowerblue",marker="o",alpha=0.7,markerfacecolor="none",capsize=2,capthick=1,label="Meff")
@@ -132,11 +113,9 @@ for t1 in range(start_t, start_t + deltat):
     left, bottom, width, height = (t1, (E_mean - E_error), end - t1, 2 * E_error)
     rect = mpatches.Rectangle((left, bottom),width,height,alpha=0.4,facecolor="red",label="fitting")
     plt.gca().add_patch(rect)
-
     plt.text(10, (ymax-ymin)*0.8+ymin, f'$\chi^2/d.o.f.$ = {chi_mean}', fontsize=9)
     plt.text(10, (ymax-ymin)*0.9+ymin, f'fit $E$ = {E_mean}', fontsize=9)
     plt.text(10, (ymax-ymin)*0.85+ymin, f'error = {E_error}', fontsize=9)
-
     plt.legend(loc='upper right') 
     plt.title("%s %s" % (state, object))
     plt.xlabel("t")
@@ -144,7 +123,6 @@ for t1 in range(start_t, start_t + deltat):
     plt.xlim(5, Nt0//2)
     plt.ylim(ymin, ymax)
     plt.savefig(f"/public/home/zhangxin/lattice-qcd/test.jpg",dpi=400) 
-
 ### --------------pretty table
 print("mass=", mass_mean)
 print("error=", error_mean)
@@ -161,18 +139,13 @@ for i in range(deltat):
         ]
     )
 print(twostatefit)
-
-
 fig, (ax1, ax2) = plt.subplots(2, 1)
 gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
-
 ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
-
 ax1.errorbar(x=np.arange(deltat) + start_t, y=mass_mean[0], yerr=error_mean[0], ecolor="red", linestyle="none",
     mec="red", marker="o", alpha=0.7,markerfacecolor="none",capsize=2, capthick=1,)
 plotx=np.arange(deltat) + start_t
-
 selectid=select_t-start_t
 mean=mass_mean[0,selectid]
 err=error_mean[0,selectid]
@@ -191,7 +164,6 @@ ax1.set_ylabel("$fit$ $M_{eff}$")
 ax2.set_ylabel("$\chi^2/d.o.f.$")
 ax1.set_ylim(auto_ymin, auto_ymax)
 ax2.set_ylim(0, 3)   
-
 Xset=[]
 for i in plotx:
     Xset.append(f"{i}")
@@ -213,5 +185,3 @@ print("")
     # np.save(F"/public/home/zhangxin/lattice-qcd/laph/Xicc/fit_result/{conf_name}/p{p}_{start_t}_{end_t}_n{Nsamples}_nboot{nbsamples}_Nev{Nev}_one_E.npy",save_E)
     # np.save(F"/public/home/zhangxin/lattice-qcd/laph/Xicc/fit_result/{conf_name}/param_a/p{p}_{start_t}_{end_t}_n{Nsamples}_nboot{nbsamples}_Nev{Nev}_one_a.npy",save_a)
     # np.save(F"/public/home/zhangxin/lattice-qcd/laph/Xicc/fit_result/{conf_name}/param_chi/p{p}_{start_t}_{end_t}_n{Nsamples}_nboot{nbsamples}_Nev{Nev}_one_chi.npy",save_chi)
-
-

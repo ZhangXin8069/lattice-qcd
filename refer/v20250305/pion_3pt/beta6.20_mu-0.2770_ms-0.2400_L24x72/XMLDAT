@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
-
-
 <chroma>
   <Input><chroma>
-
         <annotation>
             Quark project 
                 pion_3pt
         </annotation>
         <Param> 
             <InlineMeasurements>  
-
             <elem>
                 <Name>MAKE_SOURCE</Name>
                 <Frequency>1</Frequency>
@@ -25,7 +21,6 @@
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Source>
                 </Param>
                 <NamedObject>
@@ -34,7 +29,6 @@
                 </NamedObject>
             </elem>
             
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -58,7 +52,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -113,7 +106,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>default_gauge_field</gauge_id>
@@ -121,7 +113,6 @@
                     <prop_id>prop</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
                 <Name>SINK_SMEAR</Name>
                 <Frequency>1</Frequency>
@@ -131,12 +122,10 @@
                     <version>2</version>
                     <SinkType>POINT_SINK</SinkType>
                     <j_decay>3</j_decay>
-
                     <Displacement>
                         <version>1</version>
                         <DisplacementType>NONE</DisplacementType>
                     </Displacement>
-
                     </Sink>
                 </Param>
                 <NamedObject>
@@ -146,7 +135,6 @@
                 </NamedObject>
             </elem>
                 
-
             <elem>
                 <annotation>
                     Compute the hadron spectrum.
@@ -176,7 +164,6 @@
                 <output>./iog/pion_2pt_Px0Py0Pz0_ENV-1_conf10250_tsep-1_mass-0.2770.iog</output>
             </elem>
                 
-
             <elem>
                 <Name>SEQSOURCE_FAST</Name>
                 <SmearedProps>true</SmearedProps>
@@ -215,7 +202,6 @@
                 </NamedObject>
             </elem>
         
-
             <elem>
                 <Name>PROPAGATOR</Name>
                 <Frequency>1</Frequency>
@@ -239,7 +225,6 @@
                         </FermionBC>
                         </FermState>
                     </FermionAction>
-
                 <InvertParam>
                     <invType>QUDA_MULTIGRID_CLOVER_INVERTER</invType>
                     <MULTIGRIDParams>
@@ -294,7 +279,6 @@
                     <CudaSloppyReconstruct>RECONS_12</CudaSloppyReconstruct>
                 </InvertParam>
                 
-
                 </Param>
                 <NamedObject>
                     <gauge_id>default_gauge_field</gauge_id>
@@ -302,7 +286,6 @@
                     <prop_id>seq_prop_U</prop_id>
                 </NamedObject>
             </elem>
-
             <elem>
             <annotation>
                 "a_0" just indicates the Gamma =1; therefore the output gamma is the corret ones int eh chroma gamma index
@@ -340,16 +323,12 @@
             </BuildingBlocks>
             <xml_file>./iog/xml/pion_3pt_Px0Py0Pz0_ENV-1_conf10250_tsep10_mass-0.2770_linkdir2_linkmax10.xml</xml_file>
         </elem>
-
               
-
             </InlineMeasurements>    
             
             <nrow>24 24 24 72</nrow>
-
             
         </Param>
-
         <RNG>
             <Seed>
             <elem>11</elem>
@@ -358,15 +337,12 @@
             <elem>0</elem>
             </Seed>
         </RNG>
-
         <Cfg>
             <cfg_type>SCIDAC</cfg_type>
             <cfg_file>/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_10250.lime</cfg_file>
             <parallel_io>true</parallel_io>
         </Cfg>
-
     </chroma>
-
   </Input>
   <ProgramInfo>
     <code_version>
@@ -2930,8 +2906,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params
-
-
   </Config_info>
   <Observables>
     <w_plaq>0.535479157519541</w_plaq>
@@ -3002,7 +2976,6 @@
         <DisplacementType>NONE</DisplacementType>
       </Displacement>
     </Source>
-
             <j_decay>3</j_decay>
             <t_source>0</t_source>
           </Param>
@@ -5550,7 +5523,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
         </Config_info>
         <Observables>
           <w_plaq>0.535245943110075</w_plaq>
@@ -8223,9 +8195,6 @@
         </MDIntegrator>
       </HMCTrj>
     </Params>
-
-
-
         </Config_info>
         <Output_version>
           <out_version>1</out_version>
@@ -8263,7 +8232,6 @@
         <Source_file_info><make_source>
       <id>799686654</id>
     </make_source>
-
         </Source_file_info>
         <Source_record_info><MakeSource>
       <version>1</version>

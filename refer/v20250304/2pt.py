@@ -2,16 +2,13 @@ import numpy as np
 import gvar as gv
 from scipy.optimize import fsolve
 import math
-
 # read in the initial data
 data = {}
 data['N0'] = 35
 data['Nt'] = 72 // 2
 data['link_max'] = 0
-
 data['init'] = np.zeros((data['N0'], data['Nt']), dtype=float)
 # data['init_3pt'] = np.zeros((data['link_max'], data['N0'], data['Nt']), dtype=float)
-
 for conf in range(35):
     data['init'][conf] = (np.load(f"/public/home/user5/sush_IMP/work/homework/corr/data/proton_conf{conf * 1000 + 10000}.npy").real)[:data['Nt']]
     # for link_indx in range(-data['link_max'], data['link_max'], 1):
@@ -21,7 +18,6 @@ for conf in range(35):
 data['init_normal_mean'] = np.mean(data['init'] / np.max(data['init']), axis = 0)
 data['init_normal_err'] = np.std(data['init'] / np.max(data['init']), axis = 0) / np.sqrt(data['N0'] - 1)
 data['init_normal_cov'] = np.cov((data['init'] / np.max(data['init'])).T)
-
 def corr_meff_2pt(data_sample:np.ndarray, corr_type:str, analyse_type:str='jackknife'):
     N0 = data_sample.shape[0]
     Nt = data_sample.shape[1]
@@ -37,7 +33,6 @@ def corr_meff_2pt(data_sample:np.ndarray, corr_type:str, analyse_type:str='jackk
         def fndroot(eqnf,ini):
             sol = fsolve(eqnf,ini, xtol=1e-5)
             return sol
-
         data_meff['sample'] = np.array([fndroot(eff_mass_eqn(c2pt),ini) for c2pt in data_sample_ini[:,:]])
         data_meff['mean'] = np.mean(data_meff['sample'], axis=-2)
         if analyse_type == 'Jackknife':
@@ -63,12 +58,9 @@ def corr_meff_2pt(data_sample:np.ndarray, corr_type:str, analyse_type:str='jackk
         raise print("don't have the corr type") 
     
     return data_meff
-
-
 # JackknifeJackknife: 
 # 样本平均值是固定的，缩小样本的大小，减小方差；
 # 但是不适用于样本量比较小的情况，会导致数据分析出现偏差；并且不适用于非线性的分析
-
 def Jackknife(data:np.ndarray, analyse:bool=False) -> dict:
     N0 = data.shape[0]
     N1 = data.shape[1]
@@ -83,7 +75,6 @@ def Jackknife(data:np.ndarray, analyse:bool=False) -> dict:
         data_analyse['analysed_cov'] = np.cov(data_analyse['analysed_sample'].T)
         
     return data_analyse
-
 #Bootstrap: 随机抽取N次原样本中的M个数据，
 def Bootstrap(data:np.ndarray, N:int, M:int, analyse:bool=False) -> dict:
     N0 = data.shape[0]
@@ -109,9 +100,7 @@ def Bootstrap(data:np.ndarray, N:int, M:int, analyse:bool=False) -> dict:
         data_analyse['analysed_mean'] = np.mean(data_sample, axis = 0)
         data_analyse['analysed_err'] = np.std(data_sample, axis = 0)
         data_analyse['analysed_cov'] = np.cov(data_sample.T)
-
     return data_analyse
-
 import lsqfit
 # data.update(Bootstrap(data['init'], N=1000, M = 30, corr_type=''))
 data.update(Jackknife(data['init']))
@@ -124,32 +113,25 @@ print(data.keys())
 ini_prr = {'A0': '0.6(1)', 'E0': '0.5(1)', 'A1': '0.1(1)', 'E1': '0(1)'}
 # fit_all = np.zeros((data_n, fit_n),dtype=classmethod)
 fit_parameter = np.zeros(3,dtype=float)
-
 def ft_mdls(t_dctnry, p):
     mdls = {}
     ts = t_dctnry['C3pt']
     mdls['C3pt'] = (p['A0'] *  np.exp(- p['E0'] * ts) * (1 + p['A1'] *  np.exp(- p['E1'] * ts)))
     return mdls
-
 t_dctnry = {'C3pt': X[2:13]}
 data_dctnry = {'C3pt': gv.gvar(data['init_normal_mean'][2:13], data['init_normal_cov'][2:13, 2:13])}
-
 fit = lsqfit.nonlinear_fit(data=(t_dctnry, data_dctnry), fcn=ft_mdls, prior=ini_prr, debug=True) 
-
 fit_parameter[0] = (float)(fit.chi2/fit.dof)
 fit_parameter[1] = (float)(fit.Q)
 fit_parameter[2] = (float)(fit.logGBF)
 print(fit.format(True))
 # fitted function values
-
 import matplotlib.pyplot as plt
-
 t_ary = fit.data[0]['C3pt']
 t_lst = np.arange(0.2,15,0.1)
 data_fit_fcn_gvar = fit.fcn({'C3pt':t_lst}, fit.p)['C3pt']
 data_fit_mean = np.array([c2.mean for c2 in data_fit_fcn_gvar])
 data_fit_err = np.array([c2.sdev for c2 in data_fit_fcn_gvar])
-
 fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
 ax.errorbar(X[:16], data['init_normal_mean'][:16], yerr=data['init_normal_err'][:16], fmt = 'ro',alpha=0.5, capsize=3.5, capthick=1.5, label='data', linestyle='none', elinewidth=2) 
 ax.plot(t_lst, data_fit_mean, color="b", label="best fit") 
@@ -161,7 +143,6 @@ ax.legend(loc='upper center', fontsize=10, frameon=True, fancybox=True, framealp
             ncol=1, markerfirst=True, markerscale=1, numpoints=1, handlelength=1.5)
 fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
 fig.show
-
 plt.rcParams.update({'font.size':25})
 fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
 fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)

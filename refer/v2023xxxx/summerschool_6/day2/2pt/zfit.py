@@ -4,26 +4,20 @@ from lsqfit import nonlinear_fit as nlinefit
 import scipy.optimize as opt
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 sns.set()  # Set style for matplotlib
-
 # Load data from .npy file
 c2pt_list = np.load('./c2pt.npy')
 c2pt_list = np.abs(c2pt_list)
 # Get number of c2pt and length of time
 NUMBER, TLENTH = c2pt_list.shape
-
-
 def jackKnife(data: np.ndarray, dropfirst: bool, average: bool, normalize: bool) -> np.ndarray:
     """
     Perform jackknife resampling on input data.
-
     Args:
     - data: Input data of shape (n, m), where n is the number of samples and m is the length of time.
     - dropfirst: Whether to drop the first time slice of the data.
     - average: Whether to average over the time slices of the data.
     - normalize: Whether to normalize the data by dividing by the mean of the first time slice.
-
     Returns:
     - jackkniff_data: Jackknifed data of shape (n, m).
     - mean_jackkniff_data: Mean of jackknifed data over samples.
@@ -48,49 +42,37 @@ def jackKnife(data: np.ndarray, dropfirst: bool, average: bool, normalize: bool)
     jackkniff_data_covar = (number - 1) * \
         np.cov(np.transpose(jackkniff_data, axes=(1, 0)))
     return jackkniff_data, mean_jackkniff_data, jackkniff_data_error, jackkniff_data_covar
-
-
 # Preprocess data using jackknife resampling
 jackkniff_c2pt_list, mean_jackkniff_c2pt_list, jackkniff_c2pt_list_error, jackkniff_c2pt_list_covar = jackKnife(
     data=c2pt_list, dropfirst=True, average=False, normalize=True)
-
-
 def modelFunc(t: np.ndarray, p: dict) -> np.ndarray:
     """
     Define the model function for fitting.
-
     Args:
     - t: Time array of shape (m,) for fitting.
     - p: Parameters dictionary with keys 'C0' and 'E0'.
-
     Returns:
     - Model function evaluated at t with given parameters.
     """
     return p['C0'] * np.cosh(p['E0'] * (t - TLENTH / 2.0))
-
 def modelFuncLog(t: np.ndarray, p: dict) -> np.ndarray:
     """
     Define the model function for fitting.
-
     Args:
     - t: Time array of shape (m,) for fitting.
     - p: Parameters dictionary with keys 'C0' and 'E0'.
-
     Returns:
     - Model function evaluated at t with given parameters.
     """
     return p['C0'] * np.log(p['E0'] * t )
-
 def nonlinearFit(x: np.ndarray, y: np.ndarray, yerr: np.ndarray, modelfunc: callable) -> list:
     """
     Perform nonlinear fitting on input data.
-
     Args:
     - x: Independent variable array of shape (m,) for fitting.
     - y: Dependent variable array of shape (m,) for fitting.
     - yerr: Error array of shape (m, m) for fitting.
     - modelfunc: Model function to fit the data.
-
     Returns:
     - params: Fitted parameter values.
     - errors: Fitted parameter errors.
@@ -105,11 +87,8 @@ def nonlinearFit(x: np.ndarray, y: np.ndarray, yerr: np.ndarray, modelfunc: call
     chi2 = fit.chi2 / fit.dof
     logGBF = fit.logGBF
     return params, errors, chi2, logGBF
-
-
 start = 10
 end = 30
-
 params, errors, chi2, logGBF = nonlinearFit(x=np.array(range(start, end)),
                                             y=mean_jackkniff_c2pt_list[start:end],
                                             yerr=jackkniff_c2pt_list_covar[start:end,
@@ -128,19 +107,12 @@ plt.yscale("log")
 plt.legend()
 plt.savefig("./zfit.png")
 # plt.show()
-
 alttc = 0.10530
 fm2GeV = 0.1973
-
-
 def modelFuncCosh(t, C0, E0):
     return C0 * np.cosh(E0 * (t - TLENTH / 2.0))
-
-
 def modelFuncLog(t, C0, E0):
     return C0 * np.log(E0 * t)
-
-
 def meffFit(x,y, modelfunc):
     pass
 # popt, pcov = opt.curve_fit(f=modelFuncCosh, xdata=x, ydata=y, sigma=yerr, absolute_sigma=True)

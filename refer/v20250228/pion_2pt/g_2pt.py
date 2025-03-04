@@ -2,8 +2,6 @@ import matplotlib.pyplot as plt
 import cupy as np
 # import cupy as cp
 import math
-
-
 gamma_5 = np.array(
     [[1, 0, 0, 0],
      [0, 1, 0, 0],
@@ -47,5 +45,4 @@ for k in range(10, 10+length):
         c_sum += np.roll(c, -18*i)/4/length
         # print(math.log10(c.real))+
     print(c_sum)
-
 np.save("output_2pt.npy",c_sum)

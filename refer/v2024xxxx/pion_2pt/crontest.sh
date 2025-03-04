@@ -1,7 +1,5 @@
 #!/bin/sh
-
 #sleep 4.6h
-
 for i in {5950..9150..50}
 do
         
@@ -12,5 +10,4 @@ done
 sbatch /public/home/zhangxin/lattice-lqcd/meson_run1110/meson_run1110/submit/submit.$i.sh
 done
 done
-
 done

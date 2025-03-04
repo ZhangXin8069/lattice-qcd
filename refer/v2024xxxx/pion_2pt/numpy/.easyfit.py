@@ -10,16 +10,11 @@ import gvar as gv
 from prettytable import PrettyTable
 from lsq_tools import *
 import glob
-
-
 Nt0=96
-
 nbsamples = 3000
-
 Lt = 96
 state="F48P30"
 object= "$\Xi_{cc}$"
-
 jack=False#True#
 shape = "onestate"
 SAVEdataandgraph=True# False#          #used to control whether save data and graph
@@ -95,7 +90,6 @@ if state=="F48P21":
 # id[0:194]=np.arange(1000,10700,50)
 # id[194:222]=np.arange(14300,15700,50)
 # id[222:225]=np.arange(16550,16700,50)
-
 data_all_mom=np.zeros([Nmom,Nsamples,96],"<c16")
 a=read_dat_file(f"/public/home/zhangxin/lattice-lqcd/meson_run1110/laph/Xicc/result/{conf_name}/eigen200/000/corr_Xicc_pp_Px0Py0Pz0.conf",".dat",False)
 data_all_mom[0]=a
@@ -112,14 +106,10 @@ data_all_mom=data_all_mom.transpose(1,0,2)
 Nsamples=data_all_mom.shape[0]
 print(data_all_mom.shape)
 print("Nsamples=",Nsamples)  
-
-
 if jack==True:
     boot_corr = jackknife(data_all_mom)
 else:
     boot_corr = bootstrap(data_all_mom , nbsamples)
-
-
 Nt = 40
 if Ptest!=None:
     Pall=[Ptest]
@@ -133,10 +123,8 @@ for p in Pall:
     #print(contract)
     N = contract.shape[0]  # your final number of samples
     print("N=", N)
-
     contract_sum = np.sum(contract, 0)
     sum_average = np.mean(contract, 0)
-
     # meson_mass_average = np.arccosh((np.roll(sum_average, -1) + np.roll(sum_average, 1)) / (2 * sum_average)) #/ Na* 0.1974
     # meson_mass_jk =np.arccosh((np.roll(contract, -1, 1) + np.roll(contract, 1, 1)) / (2 * contract)) #/ Na* 0.1974
     meson_mass_average = np.log(np.roll(sum_average, 1) / (sum_average)) #/ Na* 0.1974
@@ -153,11 +141,8 @@ for p in Pall:
     else:
         M_ij = M_ij/nbsamples
         print("boot!!")
-
     M_dig = np.tril(M_ij)
     M_dig = np.triu(M_dig)
-
-
     def efunc(x, p):
         t00=0
         if shape == "onestate":
@@ -195,7 +180,6 @@ for p in Pall:
             fit_mean = lsqfit.nonlinear_fit(data=(T[t1 : t2 + beta[p] + 1], gv_corr[t1 : t2 + beta[p] + 1]), fcn=efunc,svdcut=1e-12,p0=p0)
             chi_mean=fit_mean.chi2/fit_mean.dof
             for fid in range(N):
-
                 gv_corr = gv.gvar(contract[fid], M_ij)
                 fit = lsqfit.nonlinear_fit(data=(T[t1 : t2 + beta[p] + 1], gv_corr[t1 : t2 + beta[p] + 1]), fcn=efunc,svdcut=1e-12,p0=p0)
                 pr_corr = fit.p
@@ -210,7 +194,6 @@ for p in Pall:
             pr_aver_corr = np.mean(pr_arr_corr, 0)
             print(fit.p, "chis = ", chi_mean)  #-2
             print("dof",fit.dof)
-
             mass_mean[t2][t1 - start[p]] = pr_aver_corr[0]
             chi_square[t2][t1 - start[p]] = chi_mean
             
@@ -225,10 +208,8 @@ for p in Pall:
             end = beta[p]
             E_mean = mass_mean[0][t1 - start[p]] #/ Na * 0.1974
             E_error = error_mean[0][t1 - start[p]] #/ Na * 0.1974
-
             # Nt=int(Nt/2+1)
             T = np.arange(Nt)
-
             fig = plt.figure()
             # plt.plot([t1,t1],[0,10],color='black',alpha=0.3)
             
@@ -299,7 +280,6 @@ for p in Pall:
         
         fig, (ax1, ax2) = plt.subplots(2, 1)
         gs = gridspec.GridSpec(2, 1, height_ratios=[3, 1])
-
         ax1 = plt.subplot(gs[0])
         ax2 = plt.subplot(gs[1])
         #mass_mean = mass_mean #/ Na * 0.1974

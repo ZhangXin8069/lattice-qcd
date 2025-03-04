@@ -1,7 +1,5 @@
 #!/public/home/xinghy/anaconda3-2023.03/bin/python
-
 # test file to check whether first term has problem
-
 import numpy as np
 import fileinput
 import math
@@ -15,7 +13,6 @@ from html.entities import entitydefs
 # from prettytable import PrettyTable
 import matplotlib.patches as mpatches
 #import pandas as pd
-
 state = "F32P30"
 object = "Pion"  # "$\overline{D}^{0*}$" $D_s^+$
 parity = "uu_gamma5"
@@ -34,8 +31,6 @@ start = 24  # start t
 beta = 35  # end t
 t0 = 24  # fit t
 deltat = 3  # fit section width
-
-
 # infile=fileinput.input(files=('/public/home/changx/meson_run1110/input.sh'))
 # for line in infile:
 #   tmp=line.split()
@@ -47,22 +42,15 @@ deltat = 3  # fit section width
 #     Py=int(tmp[1])
 #   if(tmp[0]=='Pz'):
 #     Pz=int(tmp[1])
-
-
 xmin = 5
 xmax = 48
 ymin = 0.300
 ymax = 0.315
-
 # file = "/public/home/changx/meson_run1110/result_uu_%s%s%s" % (px,py,pz)
 file = "/public/home/changx/meson_run1110/result_uu_{px}{py}{pz}"
 print(file)
-
 exit(1)
-
-
 # contract = np.load(f"{file}/corr_us_g5D3_n168.npy")
-
 contract = []
 for i in range(N):
     # print(f"{file}/corr_{parity}_Px%sPy%sPz%s_conf%s.dat" % (px, py, pz, 1000 + i * 50))
@@ -82,18 +70,14 @@ for i in range(N):
         f.close()
     except:
         continue
-
 contract = np.array(contract)
-
 Nt = int(Nt / 2) + 1
 contract = contract[:, :Nt]
 contract_sum = np.sum(contract, 0)
 average_jk = ((contract_sum) - contract) / (N - 1)
-
 N = average_jk.shape[0]
 print("N=", N)
 sum_average = np.mean(average_jk, 0)
-
 sq_sum = 0
 jk_err = np.zeros(Nt)
 for t in range(Nt):
@@ -104,31 +88,22 @@ for t in range(Nt):
 jk_err = jk_err / sum_average[0]
 average_jk = average_jk / sum_average[0]
 sum_average = sum_average / sum_average[0]
-
 M_a = average_jk
 M_b = sum_average
 M = np.zeros((Nt, Nt))
 M_ij = np.zeros((Nt, Nt))
-
 for k in range(N):
     for i in range(Nt):
         for j in range(Nt):
             M_ij[i, j] = (M_a[k][i] - M_b[i]) * (M_a[k][j] - M_b[j])
     M += M_ij
-
-
 M_dig = np.tril(M)
 M_dig = np.triu(M_dig)
-
 # print(M_dig)
 # print (M)
-
-
 # Nt=int((Nt-1)*2)
 def efunc(x, p):
     return p["a0"] * (np.exp(-p["E0"] * (Nt0 - x)) + np.exp(-p["E0"] * x))
-
-
 # ——————————————————————————拟合corr fitting
 # Nt=int(Nt/2+1)
 pr_arr_corr = np.zeros([N, 3])
@@ -153,7 +128,6 @@ for t2 in range(1):
             # 
             # prior["a0"] = gv.gvar(0.3, 1.0e5)
             # prior["E0"] = gv.gvar(0.3, 5.0)
-
             gv_corr = gv.gvar(average_jk[fid], M)
             fit = lsqfit.nonlinear_fit(
                 data=(time[t1 : t2 + beta + 1], gv_corr[t1 : t2 + beta + 1]),
@@ -167,7 +141,6 @@ for t2 in range(1):
             pr_arr_corr[fid][2] = fit.chi2 / (fit.dof - 2)  #if prior 
             #pr_arr_corr[fid][2] = fit.chi2 / (fit.dof)  #if p0
         # print(fit.chi2/fit.dof)
-
         pr_arr_corr = np.array(pr_arr_corr)
         pr_aver_corr = np.array([0.0, 0.0, 0.0])
         for i in range(N):
@@ -178,21 +151,16 @@ for t2 in range(1):
         #    print('E_mean=',pr_aver_corr[0])
         mass_mean[t2][t1 - start] = pr_aver_corr[0]
         chi_square[t2][t1 - start] = chi_mean
-
         mass_err_corr0 = 0
         sq_sum_corr0 = 0
-
         for i in range(N):
             sq_sum_corr0 += (pr_aver_corr[0] - pr_arr_corr[i][0]) ** 2
-
             mass_err_corr0 = np.sqrt((N - 1) / (N) * sq_sum_corr0)
-
         #    print('E_error=',mass_err_corr0)
         #    print('E1_error=',mass_err_corr)  #拟合质量的jkerror
         error_mean[t2][t1 - start] = mass_err_corr0
     # print(t1_all)
 # print(chi_square)
-
 data_M = np.zeros((N, Nt))  # 拟合出的数据矩阵
 data_sum_ave = np.zeros(Nt)
 for j in range(Nt):
@@ -202,11 +170,9 @@ for j in range(Nt):
             + np.exp(-pr_arr_corr[i][0] * time[j])
         )
 # print(data_M)
-
 for i in range(N):
     data_sum_ave += data_M[i]
 data_sum_ave = data_sum_ave / N  # 数据均值
-
 sq_sum = 0
 data_M_err = np.zeros(Nt)
 for t in range(Nt):
@@ -214,15 +180,12 @@ for t in range(Nt):
     for i in range(N):
         sq_sum += (data_sum_ave[t] - data_M[i][t]) ** 2
     data_M_err[t] = np.sqrt(sq_sum * (N - 1) / N)  # 拟合数据jk误差
-
 # print (pr_aver[0],pr_aver[1])
-
 # fig1=plt.figure()
 # plt.plot(time,data_M[0],color='red',label='dependent fn')
 # plt.errorbar(x=(time-0.1),y=data_sum_ave,yerr=data_M_err,color='indianred',elinewidth=2,capthick=1,label='corr fitting',marker='.')
 # plt.errorbar(x=(time-0.1),y=np.log(data_sum_ave/(average_jk[0][0]-average_jk[0][32])*(np.e-1)+1),yerr=np.log(data_M_err/(average_jk[0][0]-average_jk[0][32])*(np.e-1)+1),color='indianred',elinewidth=2,capthick=1,label='corr fitting',linestyle='none',marker='.')
 # plt.legend(loc='upper right')
-
 # -------------------------seaborn.heatmap
 # print('t0=',t0,'delta=',deltat,'beta=',beta)
 # print('chi2/dof=',chi_square)
@@ -246,25 +209,17 @@ print("error=", error_mean)
 #         ]
 #     )
 # print(twostatefit)
-
 fig, ax1 = plt.subplots()
 ax2 = ax1.twinx()
-
-
 lns1 = ax1.bar(
     x=np.arange(deltat) + start,
     height=chi_square[0],
     label="$\chi^2/d.o.f.$",
     color="cornflowerblue",
 )
-
-
-
 ax1.set_yscale("log")
 ax1.set_ylim(0.1, 1000)
 ax2.set_ylabel("chi2/dof", labelpad=50)
-
-
 mass_mean = mass_mean / Na * 0.1974
 error_mean = error_mean / Na * 0.1974
 lns2 = ax2.errorbar(
@@ -285,11 +240,8 @@ for i in range(deltat):
     ax1.text(start+i, chi_square[0,i]+0.1, str(round(chi_square[0,i], 2)), ha='center')
 ax1.set_xlabel("start timeslice")
 ax1.set_ylabel("$M_{eff}$ fitting result/Gev", labelpad=40)
-
 # fig.legend(loc='upper right', bbox_to_anchor=(0.34, 1), bbox_transform=ax1.transAxes)
 fig.legend(loc=1, bbox_to_anchor=(1, 1), bbox_transform=ax1.transAxes)
-
-
 ax1.yaxis.tick_right()
 ax2.yaxis.tick_left()
 ax2.set_ylim(mass_mean[0,t0-start]-30*error_mean[0,t0-start],mass_mean[0,t0-start]+10*error_mean[0,t0-start])
@@ -298,26 +250,21 @@ plt.title(
 )
 plt.savefig(f"/public/home/zhangxin/lattice-lqcd/meson_run1110/test1.jpg" , dpi=400)
 # plt.show()
-
 # -------------------------------effective mass
-
 t = 0
 R_t = 0
 meson_mass_average = np.zeros(Nt - 2)  # ×ÜÖÊÁ¿µÄÆ½¾ù
 meson_mass = 0
-
 for i in range(1, Nt - 1):
     R_t = (sum_average[i - 1] + sum_average[i + 1]) / (2 * sum_average[i])
     meson_mass = np.arccosh(R_t) / Na * 0.1974
     meson_mass_average[i - 1] = meson_mass
 # mason_mass_average=np.array(meson_mass_average)
 print(meson_mass_average.shape)
-
 meson_mass_jk = []  # ½«mass_average_notsumÐ´Èë¸Ãlist
 mass_notsum = 0
 mass_average_notsum = []  # ÉÙÒ»¸öÊý¾ÝµÄÖÊÁ¿Æ½¾ùÖµ
 # print(contract)
-
 for i in range(N):
     for k in range(1, Nt - 1):
         R_t = (average_jk[i][k - 1] + average_jk[i][k + 1]) / (2 * average_jk[i][k])
@@ -325,11 +272,8 @@ for i in range(N):
         mass_average_notsum.append(mass_notsum)
     meson_mass_jk.append(mass_average_notsum)  # N*62Î¬¶È
     mass_average_notsum = []  # ÉÙÒ»¸öÊý¾ÝµÄÖÊÁ¿Æ½¾
-
 jkerros = []
-
 average_jk_notsum = []
-
 for t in range(Nt - 2):
     ave_diff_square = 0  # Æ½·½²î
     #  average_jk_notsum=[] #2´Îjk
@@ -345,7 +289,6 @@ end = beta
 E_mean = mass_mean[0][t0 - start]
 E_error = error_mean[0][t0 - start]
 time = np.arange(Nt - 2) + 1
-
 fig = plt.figure()
 # plt.plot([t0,t0],[0,10],color='black',alpha=0.3)
 plt.errorbar(
