@@ -8,8 +8,8 @@ chroma = creat_chroma_ini(
     lattice_size = [24, 24, 24, 72],
     hadron = hadron,
     conf_id = conf_id,
-    conf_dir = '/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/',
-    out_path = './xml/',
+    conf_dir = '/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_',
+    out_path = './',
 )
 if hadron == 'pion':
     hadron_list = 100001515
