@@ -9,34 +9,27 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=zhangxin8069@qq.com
 #SBATCH --gres=gpu:1
-source /public/home/zhangxin/env.sh
-bash ./clean.sh
+unset
+export LD_LIBRARY_PATH=''
+module purge
+module load cuda/11.4.4-gcc-10.3.0
+module load openmpi/4.1.5-gcc-10.3.0 
+module load python/3.9.10-gcc-10.3.0
+chroma=/public/home/sush/3pt_test/chroma/install_chroma/chroma_a100/chroma_a100/build/chroma/mainprogs/main/chroma
 mkdir -p ./xml
-mkdir -p ./resource
 mkdir -p ./iog
 mkdir -p ./log
-chack_data=0
+mkdir -p ./resource
 conf_start=10000
 gap=50
 index=$@
-echo "index:${index}"
 conf=$((${conf_start} + ${gap} * ${index}))
 hadron=pion
 mass=-0.2770
 tsep=10
 conf_type=beta6.20_mu-0.2770_ms-0.2400_L24x72
-exe=./main.py
 xml=./xml/${hadron}_tsep${tsep}_mass${mass}_${conf}.xml
-quda_resource_path=./resource
-iog_file=./iog/${hadron}_3pt_Px0Py0Pz0_ENV-1_conf${conf}_tsep${tsep}_mass${mass}_linkdir2_linkmax10.iog
-if [ ${chack_data} -eq 1 ]; then
-    if [ -f ${iog_file} ]; then
-        echo iog file exist
-    else
-        python ${exe} ${conf} >${xml}
-        QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} ${chroma} -i ${xml} >./log/${conf_type}_${conf} 2>&1
-    fi
-else
-    python ${exe} ${conf} >${xml}
-    QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} ${chroma} -i ${xml} >./log/${conf_type}_${conf} 2>&1
-fi
+echo "######INDEX:${index}~${hadron}_tsep${tsep}_mass${mass}_${conf} is running!!!#######"
+python3 ./main.py ${conf} >${xml}
+QUDA_ENABLE_TUNING=0 QUDA_RESOURCE_PATH=./resource mpirun -n 1 ${chroma} -geom 1 1 1 1 -i ${xml} >./log/${conf_type}_${conf} 2>&1
+echo "######INDEX:${index}~${hadron}_tsep${tsep}_mass${mass}_${conf} is done!!!#######"

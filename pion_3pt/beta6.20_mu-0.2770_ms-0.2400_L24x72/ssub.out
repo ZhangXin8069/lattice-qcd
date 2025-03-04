@@ -1,3 +1,2 @@
-~/PyQCU ~/lattice-qcd/pion_3pt/beta6.20_mu-0.2770_ms-0.2400_L24x72
-~/lattice-qcd/pion_3pt/beta6.20_mu-0.2770_ms-0.2400_L24x72
-index:1
+LD_LIBRARY_PATH:
+######INDEX:0~pion_tsep10_mass-0.2770_10000 is running!!!#######
