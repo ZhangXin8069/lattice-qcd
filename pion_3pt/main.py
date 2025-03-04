@@ -1,78 +1,39 @@
-from include import *
 import numpy as np
-filepath = np.array([ 
-    '/public/home/sush/3pt_distillation/pion/result/%dx%d/Px%dPy%dPz%d/test/ENV_%d/conf%d/corr_uud_gamma4_3pt_tseq%d_link_indx%d_U_1000.dat',
-    '/public/home/sush/3pt_distillation/pion/result/%dx%d/Px%dPy%dPz%d/test/ENV_%d/conf%d/corr_uud_gamma4_3pt_tseq%d_link_indx%d_U_1000_peram_phase.dat', 
-    '/public/home/sush/3pt_distillation/pion/result/%dx%d/Px%dPy%dPz%d/test/ENV_%d/conf%d/corr_ud_2pt_1000.dat', 
-    '/public/home/sush/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L%dx%d/proton/nucleon_U_3pt_Px%dPy%dPz%d_ENV%d_conf%d_tsep%d_mass-0.2770_linkdir2_linkmax%d.iog', 
-    '/public/home/sush/share_work/chroma/beta6.20_mu-0.2770_ms-0.2400_L%dx%d/proton/nucleon_2pt_Px%dPy%dPz%d_ENV%d_conf%d_tsep-1_mass-0.2770.iog',
-    ])
-analyse = data_analyse(
-    num_data=3,
-    hadron='pion',
-    filepath=filepath,
-    alttc=0.1053,
-    Nx=24,
-    Nt=72,
-    time_fold=True,
-    P=np.asarray([[0,0,0]]),
-    ENV=np.asarray(range(998,1000,1)),
-    N_start=10050,
-    gap=50,
-    Ncnfg_data=4,
-    Ncnfg_iog=1,
-    tsep=np.asarray([10]),
-    link_max=10,
-    save_path='/public/home/sush/3pt_distillation/analyse/pion/1000',
-    analyse_type='ratio',
-    meff_type='cosh',
-    read_type='iog',
-)
-meff_range = [0.285,0.30]
-# analyse.meff_2pt('data')
-# analyse.meff_2pt('iog')
-# analyse.PDF('data', 'U', link_fold=True)
-# analyse.PDF('data', 'D', link_fold=True)
-analyse.PDF('iog', 'U', link_fold=True)
-# analyse.link_analyse('data','U')
-# analyse.link_analyse('data','D')
-analyse.link_analyse('iog','U')
-# print(analyse.link_y['link_data_D'][:,:,:,0])
-print(analyse.link_y['link_iog_U'][:,:,:,:])
-# A = analyse.link_y['link_data_U'][...,10]
-# for i in range(A.shape[1]-1):
-#     print(A[0,i+1] - A[0,i])
-# print(analyse.link_y['link_data_U'][...,10])
-# analyse.plot_C2pt_ENV([0,0.05])
-# analyse.plot_meff_ENV(meff_range)
-# analyse.plot_meff_2pt('data',meff_range)
-# analyse.plot_meff_2pt('iog',meff_range)
-# analyse.plot_link_ratio([0,1.25], num=1)
-analyse.plot_link_C3pt_C3pt([0,1.21],num=1)
-# analyse.plot_PDF_ENV('U',[1.1,1.21])
-# analyse.plot_link_indx_ENV(4, [0.25,0.3], normal=0)
-print('complete')
-# X = analyse.ENV
-# Y = analyse.link_y['link_data'][0, :, 0, analyse.link_max]
-# def func(x,a,b,c,d,e):
-#     return a*(np.log(b*x**2 + c*x**1 + d*x**0) ) + e 
-# # def func(x,a,b,c,d):
-# #     return a*(np.log10(b*x + c)) + d 
-# def func2(x,a,b):
-#     return a*x+b
-# peram_1_log, peram_2_log = scipy.optimize.curve_fit(func,X,Y)
-# peram_1_liner, peram_2_liner = scipy.optimize.curve_fit(func2, X[-2:], Y[-2:])
-# print(Y)
-# print('log')
-# print(np.asarray([func(i, peram_1_log[0], peram_1_log[1], peram_1_log[2], peram_1_log[3], peram_1_log[4]) for i in range(50,3001,50)]).reshape(6,10))
-# n1 = sp.symbols('n1')
-# function_data = sp.solve(peram_1_log[0]*(sp.log(peram_1_log[1]*n1**2 + peram_1_log[2]*n1**1 + peram_1_log[3]*n1**0) ) + peram_1_log[4] - 1.21, n1)
-# print(func(40000, peram_1_log[0], peram_1_log[1], peram_1_log[2], peram_1_log[3], peram_1_log[4]))
-# print(function_data)
-# print('liner')
-# print(np.asarray([func2(i, peram_1_liner[0], peram_1_liner[1]) for i in range(50,3001,50)]).reshape(6,10))
-# print(func2(40000, peram_1_liner[0], peram_1_liner[1]))
-# n2 = sp.symbols('n2')
-# function_data = sp.solve(peram_1_liner[0]*n2 + peram_1_liner[1] - 1.21, n2)
-# print(function_data)
-# function_data = sp.solve(peram_1[0] * n + peram_1[1] - 1.2, n)
+import matplotlib.pyplot as plt
+Ncnfg=20
+t_3pt=0
+t_2pt=12
+_3pt=np.load('_3pt.npy')[0,0,0,...]
+_2pt=np.load('_2pt.npy')[0,0,...]
+print("_3pt.shape:",_3pt.shape)
+print("_2pt.shape:",_2pt.shape)
+err_3pt=np.std(_3pt,axis=1)
+print("err_3pt.shape:",err_3pt.shape)
+data_3pt=np.mean(_3pt,axis=1)
+data_2pt=np.mean(_2pt,axis=0)
+print("data_3pt.shape",data_3pt.shape)
+print("data_2pt.shape",data_2pt.shape)
+_data_3pt=data_3pt[:,t_3pt]
+_data_2pt=data_2pt[t_2pt]
+_err_3pt=err_3pt[:,t_3pt]
+print("_data_3pt.shape",_data_3pt.shape)
+print("_data_2pt.shape",_data_2pt.shape)
+print("_err_3pt.shape",_err_3pt.shape)
+Y=_data_3pt/_data_2pt
+X=np.arange(len(Y))-(len(Y)-1)/2
+ERR=_err_3pt/_data_2pt
+print("Y.shape",Y.shape)
+print("ERR.shape",ERR.shape)
+print("X.shape",X.shape)
+print("Y:",Y)
+print("ERR:",ERR)
+print("X:",X)
+plt.rcParams.update({'font.size':25})
+fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
+fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
+ax.set_xlabel('Z')
+ax.set_ylabel('R = $C_{\mathrm{3pt}}$/$C_{\mathrm{2pt}}$')
+ax.errorbar(X,Y,yerr=ERR,fmt='o', alpha=0.5, capsize=3.5, capthick=1.5, label='Ncnfg='+str(Ncnfg))
+ax.legend()
+plt.title('pion 3pt')
+plt.savefig('pion_3pt.png')

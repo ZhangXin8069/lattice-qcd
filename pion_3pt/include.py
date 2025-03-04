@@ -331,7 +331,7 @@ class data_analyse:
         plt.rcParams.update({'font.size':25})
         fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
         fig.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.15)
-        ax.set_title('mass-0.1450,momgrid[48,48,48,64],coulomb_gauge_fix', fontdict={'fontsize':30,'fontweight':'light'})
+        ax.set_title(name, fontdict={'fontsize':30,'fontweight':'light'})
         ax.set_ylim(y_range)
         ax.set_xlabel('%s'%('t/a'))
         ax.set_ylabel('%s'%('$E_{\mathrm{2pt}}$/Gev'))
