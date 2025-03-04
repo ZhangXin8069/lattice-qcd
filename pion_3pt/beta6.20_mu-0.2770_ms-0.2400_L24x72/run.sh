@@ -2,13 +2,13 @@
 #SBATCH --job-name=pion_3pt
 #SBATCH --partition=gpu-debug
 #SBATCH --nodes=1
-#SBATCH -n 2
+#SBATCH -n 1
 #SBATCH --time=00-00:30:00
 #SBATCH --output=ssub.out
 #SBATCH --error=ssub.err
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=zhangxin8069@qq.com
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 source /public/home/zhangxin/env.sh
 bash ./clean.sh
 mkdir -p ./xml
@@ -34,9 +34,9 @@ if [ ${chack_data} -eq 1 ]; then
         echo iog file exist
     else
         python ${exe} ${conf} >${xml}
-        QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} mpirun -n 2 ${chroma} -geom 1 1 1 2 -i ${xml} >./log/${conf_type}_${conf} 2>&1
+        QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} ${chroma} -i ${xml} >./log/${conf_type}_${conf} 2>&1
     fi
 else
     python ${exe} ${conf} >${xml}
-    QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} mpirun -n 2 ${chroma} -geom 1 1 1 2 -i ${xml} >./log/${conf_type}_${conf} 2>&1
+    QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=${quda_resource_path} ${chroma} -i ${xml} >./log/${conf_type}_${conf} 2>&1
 fi

@@ -5,8 +5,3 @@ Currently Loaded Modulefiles:
   4) hwloc/2.9.1-gcc-10.3.0             10) ncurses/6.2-intel-2022.0.2
   5) libevent/2.1.12-gcc-10.3.0         11) intel-oneapi/compiler-rt/2024.0.0
   6) pmix/4.2.3-gcc-10.3.0              12) python/3.9.10-gcc-10.3.0
-/var/spool/slurm/d/job1443835/slurm_script: line 17: 10000 + 50 * : syntax error: operand expected (error token is "* ")
-Traceback (most recent call last):
-  File "/public/home/zhangxin/lattice-qcd/pion_3pt/beta6.20_mu-0.2770_ms-0.2400_L24x72/./main.py", line 3, in <module>
-    conf_id = str(sys.argv[1])
-IndexError: list index out of range
