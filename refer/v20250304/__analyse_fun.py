@@ -5,13 +5,13 @@ import fileinput
 import sympy as sy
 import lsqfit
 from iog_reader.iog_reader import iog_read
-def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
+def read_iog(filepath, Nx, Nt, P, ENV, N_start, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
     N_data = filepath.shape[0]
     N_link = 2*link_max+1
     N_tsep = tsep_array.shape[0]
-    conf_array = np.asarray(range(N_stare, N_stare+gap*Ncnfg+1, gap))
+    conf_array = np.asarray(range(N_start, N_start+gap*Ncnfg+1, gap))
     link_array = np.asarray(range(-link_max, link_max+1, 1))
     data_readed_3pt = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt, 2), dtype = np.double)
     intrptr = ['ID','OP0','OP1']
@@ -34,13 +34,13 @@ def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max
             data_readed_3pt[-1,P_indx,ENV_indx,0,0,conf_indx,:,0] = data['Re'].to_numpy()
             data_readed_3pt[-1,P_indx,ENV_indx,0,0,conf_indx,:,1] = data['Im'].to_numpy()
     return data_readed_3pt
-def read_data(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
+def read_data(filepath, Nx, Nt, P, ENV, N_start, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
     N_data = filepath.shape[0]
     N_link = 2*link_max+1
     N_tsep = tsep_array.shape[0]
-    conf_array = np.asarray(range(N_stare, N_stare+gap*Ncnfg+1, gap))
+    conf_array = np.asarray(range(N_start, N_start+gap*Ncnfg+1, gap))
     link_array = np.asarray(range(-link_max, link_max+1, 1))
     data_readed_3pt = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt, 3), dtype = np.double)
     if type == '3pt' or type == 'ratio':

@@ -24,8 +24,8 @@ class read_input:
                 self.Ncnfg=int(tmp[1])
             if(tmp[0]=='gap'):
                 self.gap=int(tmp[1])
-            if(tmp[0]=='N_stare'):
-                self.N_stare=int(tmp[1])
+            if(tmp[0]=='N_start'):
+                self.N_start=int(tmp[1])
             if(tmp[0]=='link_max'):
                 self.link_max=int(tmp[1])
             if(tmp[0]=='type'):
@@ -35,12 +35,12 @@ class read_input:
             if(tmp[0]=='time_fold'):
                 self.time_fold=int(tmp[1])
             # the P part
-            if(tmp[0]=='Px_stare'):
-                self.Px_stare=int(tmp[1])
-            if(tmp[0]=='Py_stare'):
-                self.Py_stare=int(tmp[1])
-            if(tmp[0]=='Pz_stare'):
-                self.Pz_stare=int(tmp[1])
+            if(tmp[0]=='Px_start'):
+                self.Px_start=int(tmp[1])
+            if(tmp[0]=='Py_start'):
+                self.Py_start=int(tmp[1])
+            if(tmp[0]=='Pz_start'):
+                self.Pz_start=int(tmp[1])
             if(tmp[0]=='Px_end'):
                 self.Px_end=int(tmp[1])
             if(tmp[0]=='Py_end'):
@@ -49,16 +49,16 @@ class read_input:
                 self.Pz_end=int(tmp[1])
                 
             # the num of t_sep
-            if(tmp[0]=='t_sep_stare'):
-                self.t_sep_stare=int(tmp[1])
+            if(tmp[0]=='t_sep_start'):
+                self.t_sep_start=int(tmp[1])
             if(tmp[0]=='t_sep_end'):
                 self.t_sep_end=int(tmp[1])
             if(tmp[0]=='t_sep_gap'):
                 self.t_sep_gap=int(tmp[1])
                 
             # the num of ENV
-            if(tmp[0]=='ENV_stare'):
-                self.ENV_stare=int(tmp[1])
+            if(tmp[0]=='ENV_start'):
+                self.ENV_start=int(tmp[1])
             if(tmp[0]=='ENV_end'):
                 self.ENV_end=int(tmp[1])
             if(tmp[0]=='ENV_gap'):
@@ -88,7 +88,7 @@ class data_analyse:
         Nt:int,
         P:np.ndarray,
         ENV:np.ndarray,
-        N_stare:int,
+        N_start:int,
         gap:int,
         tsep:np.ndarray,
         save_path:str,
@@ -113,14 +113,14 @@ class data_analyse:
         self.P = np.asarray(P)
         self.N_tsep = int(tsep.shape[0])
         self.tsep = np.asarray(tsep)
-        self.filpath = filepath
+        self.filepath = filepath
         self.link_max = link_max
         self.N_link = 2*link_max+1
         self.Ncnfg_data = Ncnfg_data
         self.Ncnfg_iog = Ncnfg_iog
         self.link = np.asarray(range(-link_max, link_max+1, 1))
-        self.conf_iog = np.asarray(range(N_stare, N_stare+gap*Ncnfg_iog+1, gap))
-        self.conf_data = np.asarray(range(N_stare, N_stare+gap*Ncnfg_data+1, gap))
+        self.conf_iog = np.asarray(range(N_start, N_start+gap*Ncnfg_iog+1, gap))
+        self.conf_data = np.asarray(range(N_start, N_start+gap*Ncnfg_data+1, gap))
         self.time_fold = time_fold
         self.analyse_type = analyse_type
         self.read_type = read_type
@@ -138,20 +138,20 @@ class data_analyse:
         self.link_err = {}
         if self.read_type == 'data' or self.read_type == 'both':
             if self.analyse_type == 'ratio':
-                self.read_data_3pt(self.filpath[0])
-                self.read_data_2pt(self.filpath[1])
+                self.read_data_3pt(self.filepath[0])
+                self.read_data_2pt(self.filepath[1])
             elif self.analyse_type == '2pt':
-                if self.filpath.shape[0] == 1:
+                if self.filepath.shape[0] == 1:
                     C2pt=0
                 else:
                     C2pt=1
-                self.read_data_2pt(self.filpath[C2pt])
+                self.read_data_2pt(self.filepath[C2pt])
         if self.read_type == 'iog' or self.read_type == 'both':
             if self.analyse_type == 'ratio':
-                self.read_iog_3pt(self.filpath[-2])
-                self.read_iog_2pt(self.filpath[-1])
+                self.read_iog_3pt(self.filepath[-2])
+                self.read_iog_2pt(self.filepath[-1])
             elif self.analyse_type == '2pt':
-                self.read_iog_2pt(self.filpath[-1])
+                self.read_iog_2pt(self.filepath[-1])
         if self.read_type != 'iog' and self.read_type != 'both' and self.read_type != 'data':
             print('Unsupported file format. This class can sport iog and data.')
             exit()

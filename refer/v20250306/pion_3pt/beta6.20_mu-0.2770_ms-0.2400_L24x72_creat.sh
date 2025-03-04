@@ -14,9 +14,9 @@ module load cuda/11.4.4-gcc-10.3.0
 module load openmpi/4.1.5-gcc-10.3.0
 chroma=/public/home/sush/3pt_test/chroma/install_chroma/chroma_a100/chroma_a100/build/chroma/mainprogs/main/chroma
 chack_data=0
-conf_stare=10000
+conf_start=10000
 gap=50
-conf=$((${conf_stare} + ${gap} * $@))
+conf=$((${conf_start} + ${gap} * $@))
 echo ${conf}
 hadron=pion
 mass=-0.2770

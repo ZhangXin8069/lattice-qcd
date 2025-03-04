@@ -4,7 +4,7 @@ from scipy.optimize import fsolve
 import fileinput
 import sympy as sy
 import lsqfit
-def read_data(N_stare, gap, Ncnfg, ENV, P, Nx, Nt, filepath, t_sep):
+def read_data(N_start, gap, Ncnfg, ENV, P, Nx, Nt, filepath, t_sep):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
     N_data = filepath.shape[0]
@@ -16,7 +16,7 @@ def read_data(N_stare, gap, Ncnfg, ENV, P, Nx, Nt, filepath, t_sep):
             # the number of P
             for k in range(N_P):
                 # conf id
-                for l in range(N_stare,N_stare+gap*Ncnfg,gap):
+                for l in range(N_start,N_start+gap*Ncnfg,gap):
                     if i < N_data-1:
                         data = open(filepath[i]%(P[k,0], P[k,1], P[k,2], ENV[j], Nx, Nt, l, t_sep), '+r')
                     else:
@@ -27,7 +27,7 @@ def read_data(N_stare, gap, Ncnfg, ENV, P, Nx, Nt, filepath, t_sep):
                     mid_data_C = np.zeros(3)
                     for o in range(n_data):
                         mid_data_C = mid_data_B[o+1].split(' ')
-                        data_readed[i,j,k,int((l-N_stare)/gap),o,:] = [float(list) for list in mid_data_C] # data_0, data_1, Ncnfg, Nt,(list,re,im)
+                        data_readed[i,j,k,int((l-N_start)/gap),o,:] = [float(list) for list in mid_data_C] # data_0, data_1, Ncnfg, Nt,(list,re,im)
     return data_readed[:,:,:,:,:,1:] # N_data, N_ENV, N_P, Ncnfg, Nt, (re,im)
 def jcknf_sample(data): # data (Ncnfg, Nt)
     n = data.shape[0]

@@ -25,8 +25,8 @@ class read_input:
                 self.Ncnfg=int(tmp[1])
             if(tmp[0]=='gap'):
                 self.gap=int(tmp[1])
-            if(tmp[0]=='N_stare'):
-                self.N_stare=int(tmp[1])
+            if(tmp[0]=='N_start'):
+                self.N_start=int(tmp[1])
             if(tmp[0]=='link_max'):
                 self.link_max=int(tmp[1])
             print(self.Nt)
@@ -37,12 +37,12 @@ class read_input:
             if(tmp[0]=='time_fold'):
                 self.time_fold=int(tmp[1])
             # the P part
-            if(tmp[0]=='Px_stare'):
-                self.Px_stare=int(tmp[1])
-            if(tmp[0]=='Py_stare'):
-                self.Py_stare=int(tmp[1])
-            if(tmp[0]=='Pz_stare'):
-                self.Pz_stare=int(tmp[1])
+            if(tmp[0]=='Px_start'):
+                self.Px_start=int(tmp[1])
+            if(tmp[0]=='Py_start'):
+                self.Py_start=int(tmp[1])
+            if(tmp[0]=='Pz_start'):
+                self.Pz_start=int(tmp[1])
             if(tmp[0]=='Px_end'):
                 self.Px_end=int(tmp[1])
             if(tmp[0]=='Py_end'):
@@ -51,16 +51,16 @@ class read_input:
                 self.Pz_end=int(tmp[1])
                 
             # the num of t_sep
-            if(tmp[0]=='t_sep_stare'):
-                self.t_sep_stare=int(tmp[1])
+            if(tmp[0]=='t_sep_start'):
+                self.t_sep_start=int(tmp[1])
             if(tmp[0]=='t_sep_end'):
                 self.t_sep_end=int(tmp[1])
             if(tmp[0]=='t_sep_gap'):
                 self.t_sep_gap=int(tmp[1])
                 
             # the num of ENV
-            if(tmp[0]=='ENV_stare'):
-                self.ENV_stare=int(tmp[1])
+            if(tmp[0]=='ENV_start'):
+                self.ENV_start=int(tmp[1])
             if(tmp[0]=='ENV_end'):
                 self.ENV_end=int(tmp[1])
             if(tmp[0]=='ENV_gap'):
@@ -79,13 +79,13 @@ class read_input:
             # plot parameter
             if(tmp[0]=='C2pt_type'):
                 self.C2pt_type=tmp[1]
-def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
+def read_iog(filepath, Nx, Nt, P, ENV, N_start, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
     N_data = filepath.shape[0]
     N_link = 2*link_max+1
     N_tsep = tsep_array.shape[0]
-    conf_array = np.asarray(range(N_stare, N_stare+gap*Ncnfg+1, gap))
+    conf_array = np.asarray(range(N_start, N_start+gap*Ncnfg+1, gap))
     link_array = np.asarray(range(-link_max, link_max+1, 1))
     data_readed_3pt = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt, 2), dtype = np.double)
     intrptr = ['ID','OP0','OP1']
@@ -106,13 +106,13 @@ def read_iog(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max
             data_readed_3pt[-1,P_indx,0,0,0,conf_indx,:,0] = data['Re'].to_numpy()
             data_readed_3pt[-1,P_indx,0,0,0,conf_indx,:,1] = data['Im'].to_numpy()
     return data_readed_3pt
-def read_data(filepath, Nx, Nt, P, ENV, N_stare, gap, Ncnfg, tsep_array, link_max, type):
+def read_data(filepath, Nx, Nt, P, ENV, N_start, gap, Ncnfg, tsep_array, link_max, type):
     N_ENV = ENV.shape[0]
     N_P = P.shape[0]
     N_data = filepath.shape[0]
     N_link = 2*link_max+1
     N_tsep = tsep_array.shape[0]
-    conf_array = np.asarray(range(N_stare, N_stare+gap*Ncnfg+1, gap))
+    conf_array = np.asarray(range(N_start, N_start+gap*Ncnfg+1, gap))
     link_array = np.asarray(range(-link_max, link_max+1, 1))
     data_readed_3pt = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt, 3), dtype = np.double)
     if type == '3pt' or type == 'ratio':

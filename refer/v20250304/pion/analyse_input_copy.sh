@@ -2,21 +2,21 @@ num_quark 2
 alttc 0.04
 Nt 64
 Nx 48
-N_stare 800
+N_start 800
 Ncnfg 30 
 gap 20
 link_max 0
-t_sep_stare -1
+t_sep_start -1
 t_sep_end -1
 t_sep_gap 1
-ENV_stare -1
+ENV_start -1
 ENV_end -1
 ENV_gap 1
-Pz_stare 0
+Pz_start 0
 Pz_end 0
-Py_stare 0
+Py_start 0
 Py_end 0
-Px_stare 0
+Px_start 0
 Px_end 0
 time_fold 0
 # if time_fold == 1:then will subtract the forward time and backward time; else do nothing

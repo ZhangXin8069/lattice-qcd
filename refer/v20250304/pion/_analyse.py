@@ -13,9 +13,9 @@ infile=fileinput.input()
 inp = read_input(infile)
 fm2GeV = 0.1973
 # fit points
-f_stare = 8
+f_start = 8
 f_end = 15
-n_ti = f_end - f_stare
+n_ti = f_end - f_start
 ed_io = time.time()
 print("analyse input file readed, use time: %.3f s"%(ed_io-st_io))
 st_read_file = time.time()
@@ -30,18 +30,18 @@ if inp.time_fold == 1:
 else:
     meff_Nt_2pt=inp.Nt-1
     Nt_3pt = inp.Nt
-tsep_array = np.asarray(range(inp.t_sep_stare, inp.t_sep_end+1, inp.t_sep_gap))
-ENV_array = np.asarray(range(inp.ENV_stare,inp.ENV_end+1,inp.ENV_gap))
-P_array = np.asarray([[pz,py,px] for pz in range(inp.Pz_stare, inp.Pz_end+1,1) for py in range(inp.Py_stare, inp.Py_end+1,1) for px in range(inp.Px_stare, inp.Px_end+1,1)])
+tsep_array = np.asarray(range(inp.t_sep_start, inp.t_sep_end+1, inp.t_sep_gap))
+ENV_array = np.asarray(range(inp.ENV_start,inp.ENV_end+1,inp.ENV_gap))
+P_array = np.asarray([[pz,py,px] for pz in range(inp.Pz_start, inp.Pz_end+1,1) for py in range(inp.Py_start, inp.Py_end+1,1) for px in range(inp.Px_start, inp.Px_end+1,1)])
 link_array = np.asarray(range(-inp.link_max,inp.link_max+1,1))
 if inp.read_type == 'data':
-    data_readed = read_data(filepath[:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_stare, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type) # data, P, ENV, tsep, link, inp.Ncnfg, inp.Nt, (re,im)
+    data_readed = read_data(filepath[:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_start, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type) # data, P, ENV, tsep, link, inp.Ncnfg, inp.Nt, (re,im)
 elif inp.read_type == 'iog':
-    data_readed = read_iog(filepath[:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_stare, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
+    data_readed = read_iog(filepath[:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_start, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
 elif inp.read_type == 'both':
     data_readed = []
-    data_readed[:inp.num_quark] = read_data(filepath[:inp.num_quark], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_stare, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
-    data_readed[inp.num_quark:] = read_iog(filepath[inp.num_quark:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_stare, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
+    data_readed[:inp.num_quark] = read_data(filepath[:inp.num_quark], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_start, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
+    data_readed[inp.num_quark:] = read_iog(filepath[inp.num_quark:], inp.Nx, inp.Nt, P_array, ENV_array, inp.N_start, inp.gap, inp.Ncnfg, tsep_array, inp.link_max, inp.type)
     data_readed = np.asarray(data_readed)
 ed_read_file = time.time()
 print("read data in data of python, use time %.3f s"%(ed_read_file-st_read_file))
@@ -113,7 +113,7 @@ if inp.type == '2pt' or inp.type == 'ratio':
     for P_indx in range(N_P):
         Re_2pt_mean_ENV = Re_2pt_mean[0,:,P_indx,12]
         Re_2pt_err_ENV = Re_2pt_err[0,:,P_indx,12]
-        ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), Re_2pt_mean_ENV, yerr=Re_2pt_err_ENV, alpha=0.5, marker = marker_array[P_indx], capsize=3.5, capthick=1.5, label='P=(%d,%d,%d)'%(P_array[P_indx,0],P_array[P_indx,1],P_array[P_indx,2]), linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(inp.ENV_start, inp.ENV_end+1, inp.ENV_gap)), Re_2pt_mean_ENV, yerr=Re_2pt_err_ENV, alpha=0.5, marker = marker_array[P_indx], capsize=3.5, capthick=1.5, label='P=(%d,%d,%d)'%(P_array[P_indx,0],P_array[P_indx,1],P_array[P_indx,2]), linestyle='none',elinewidth=2) # fmt = 'bs'
     plt.legend()
     fig.savefig("%s/%s"%(inp.save_path, 'meff_2pt_ENV_distillation.png'))
     fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
@@ -129,7 +129,7 @@ if inp.type == '2pt' or inp.type == 'ratio':
         C2pt_ENV = C2pt_tsep / (ENV_array * inp.Nt)
         C2pt_mean[t_sep_indx] = jackknife_ctr_err(C2pt_ENV)[0]
         C2pt_err[t_sep_indx] = jackknife_ctr_err(C2pt_ENV)[1]
-        ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), C2pt_mean[t_sep_indx], yerr=C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(inp.ENV_start, inp.ENV_end+1, inp.ENV_gap)), C2pt_mean[t_sep_indx], yerr=C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
         plt.legend()
     fig.savefig("%s/%s"%(inp.save_path, 'C_2pt_ENV_distillation.png'))
     
@@ -145,7 +145,7 @@ if inp.type == '3pt' or inp.type == 'ratio':
         ax.set_xlabel('%s'%('N_ENV'))
         ax.set_ylabel('%s'%('$C_{\mathrm{3pt}}$/$C_{\mathrm{2pt}}$')) # $E_{\mathrm{2pt}}$/Gev
         for t_sep_indx in range(N_tsep):
-            ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), ENV_y[data_indx,0,:,t_sep_indx,inp.link_max].T, yerr=ENV_err[data_indx,0,:,t_sep_indx,inp.link_max].T, alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+            ax.errorbar(np.asarray(range(inp.ENV_start, inp.ENV_end+1, inp.ENV_gap)), ENV_y[data_indx,0,:,t_sep_indx,inp.link_max].T, yerr=ENV_err[data_indx,0,:,t_sep_indx,inp.link_max].T, alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend(loc=2)
         fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_C_2pt_ENV_%s_distillation.png'%(data_type)))
     for data_indx in range(1):
@@ -166,7 +166,7 @@ if inp.type == '3pt' or inp.type == 'ratio':
             C3pt_mean[t_sep_indx] = jackknife_ctr_err(C3pt_ENV)[0]
             C3pt_err[t_sep_indx] = jackknife_ctr_err(C3pt_ENV)[1]
             
-            ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), C3pt_mean[t_sep_indx], yerr=C3pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(3,tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+            ax.errorbar(np.asarray(range(inp.ENV_start, inp.ENV_end+1, inp.ENV_gap)), C3pt_mean[t_sep_indx], yerr=C3pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(3,tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend()
             
         fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_ENV_%s_distillation.png'%(data_type)))
@@ -181,7 +181,7 @@ if inp.type == '3pt' or inp.type == 'ratio':
     for t_sep_indx in range(N_tsep*2):
         Cpt=3
         if t_sep_indx >=  N_tsep:Cpt=2
-        ax.errorbar(np.asarray(range(inp.ENV_stare, inp.ENV_end+1, inp.ENV_gap)), together_C3pt_C2pt_mean[t_sep_indx], yerr=together_C3pt_C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(Cpt,tsep_array[(t_sep_indx)%N_tsep]),linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(inp.ENV_start, inp.ENV_end+1, inp.ENV_gap)), together_C3pt_C2pt_mean[t_sep_indx], yerr=together_C3pt_C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(Cpt,tsep_array[(t_sep_indx)%N_tsep]),linestyle='none',elinewidth=2) # fmt = 'bs'
         plt.legend()
         
     fig.savefig("%s/%s"%(inp.save_path, 'C_3pt_C_2pt_ENV_distillation.png'))

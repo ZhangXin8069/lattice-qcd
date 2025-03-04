@@ -29,13 +29,13 @@ module load openmpi/4.1.5-gcc-10.3.0
 chroma=/public/home/sush/3pt_test/chroma/install_chroma/chroma_a100/chroma_a100/build/chroma/mainprogs/main/chroma
 # chroma=/public/home/chenc/Deuteron/run_chroma/chroma_gpu
 # chroma=/public/home/sunp/chroma-llvm_A100_hpcx_AMD/install/sm_80_omp/chroma-double_quda/bin/chroma
-conf_stare=1000
+conf_start=1000
 gap=20
 hadron=pion
 tsep=36
 mass=-0.1450
 conf_type=beta7.0_mu-0.1600_ms-0.1450_L48x64
-conf=$[${conf_stare}+${gap}*${SLURM_ARRAY_TASK_ID}]
+conf=$[${conf_start}+${gap}*${SLURM_ARRAY_TASK_ID}]
 exe=./${conf_type}_creat.py
 xml=./xml/${conf_type}/${hadron}_2pt_tsep${tsep}_${conf}.2.xml
 python ${exe} ${hadron} ${conf} ${tsep} ${mass} > ${xml}

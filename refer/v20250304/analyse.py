@@ -27,18 +27,18 @@ for line in infile:
         Ncnfg=int(tmp[1])
     if(tmp[0]=='gap'):
         gap=int(tmp[1])
-    if(tmp[0]=='N_stare'):
-        N_stare=int(tmp[1])
+    if(tmp[0]=='N_start'):
+        N_start=int(tmp[1])
     if(tmp[0]=='link_max'):
         link_max=int(tmp[1])
         
     # the P part
-    if(tmp[0]=='Px_stare'):
-        Px_stare=int(tmp[1])
-    if(tmp[0]=='Py_stare'):
-        Py_stare=int(tmp[1])
-    if(tmp[0]=='Pz_stare'):
-        Pz_stare=int(tmp[1])
+    if(tmp[0]=='Px_start'):
+        Px_start=int(tmp[1])
+    if(tmp[0]=='Py_start'):
+        Py_start=int(tmp[1])
+    if(tmp[0]=='Pz_start'):
+        Pz_start=int(tmp[1])
     if(tmp[0]=='Px_end'):
         Px_end=int(tmp[1])
     if(tmp[0]=='Py_end'):
@@ -47,16 +47,16 @@ for line in infile:
         Pz_end=int(tmp[1])
         
     # the num of t_sep
-    if(tmp[0]=='t_sep_stare'):
-        t_sep_stare=int(tmp[1])
+    if(tmp[0]=='t_sep_start'):
+        t_sep_start=int(tmp[1])
     if(tmp[0]=='t_sep_end'):
         t_sep_end=int(tmp[1])
     if(tmp[0]=='t_sep_gap'):
         t_sep_gap=int(tmp[1])
         
     # the num of ENV
-    if(tmp[0]=='ENV_stare'):
-        ENV_stare=int(tmp[1])
+    if(tmp[0]=='ENV_start'):
+        ENV_start=int(tmp[1])
     if(tmp[0]=='ENV_end'):
         ENV_end=int(tmp[1])
     if(tmp[0]=='ENV_gap'):
@@ -79,9 +79,9 @@ print("analyse input file readed, use time: %.3f s"%(ed_io-st_io))
 fm2GeV = 0.1973
 t_hlf = int(Nt/2)
 # fit points
-f_stare = 8
+f_start = 8
 f_end = 15
-n_ti = f_end - f_stare
+n_ti = f_end - f_start
 # data path
 if type == 'ratio':
     if (num_quark==3):
@@ -91,9 +91,9 @@ if type == 'ratio':
 if type == '2pt':
     filepath=np.array([corr_2pt_path])
         
-tsep_array = np.asarray(range(t_sep_stare,t_sep_end+1,t_sep_gap))
-ENV_array = np.asarray(range(ENV_stare,ENV_end+1,ENV_gap))
-P_array = np.asarray([[pz,py,px] for pz in range(Pz_stare,Pz_end+1,1) for py in range(Py_stare,Py_end+1,1) for px in range(Px_stare,Px_end+1,1)])
+tsep_array = np.asarray(range(t_sep_start,t_sep_end+1,t_sep_gap))
+ENV_array = np.asarray(range(ENV_start,ENV_end+1,ENV_gap))
+P_array = np.asarray([[pz,py,px] for pz in range(Pz_start,Pz_end+1,1) for py in range(Py_start,Py_end+1,1) for px in range(Px_start,Px_end+1,1)])
 link_array = np.asarray(range(-link_max,link_max+1,1))
 # data bulk
 N_data = filepath.shape[0]
@@ -107,9 +107,9 @@ st_read_file = time.time()
 data_readed = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt, 2), dtype = np.double)
 data_readed_complex = np.zeros((N_data, N_P, N_ENV, N_tsep, N_link, Ncnfg, Nt_3pt), dtype = np.complex128)
 if read_type == 'data':
-    data_readed = read_data(filepath, Nx, Nt, P_array, ENV_array, N_stare, gap, Ncnfg, tsep_array, link_max, type) # data, P, ENV, tsep, link, Ncnfg, Nt, (re,im)
+    data_readed = read_data(filepath, Nx, Nt, P_array, ENV_array, N_start, gap, Ncnfg, tsep_array, link_max, type) # data, P, ENV, tsep, link, Ncnfg, Nt, (re,im)
 elif read_type == 'iog':
-    data_readed = read_iog(filepath, Nx, Nt, P_array, ENV_array, N_stare, gap, Ncnfg, tsep_array, link_max, type)
+    data_readed = read_iog(filepath, Nx, Nt, P_array, ENV_array, N_start, gap, Ncnfg, tsep_array, link_max, type)
 ed_read_file = time.time()
 print("read data in data of python, use time %.3f s"%(ed_read_file-st_read_file))
 data_readed_complex[:-1] = (1.0*(data_readed[:-1,...,:tsep_array[-1]+1,0]-data_readed[:-1,...,tsep_array[-1]-1:,0])
@@ -172,7 +172,7 @@ if type == '3pt' or type == 'ratio':
     for P_indx in range(N_P):
         Re_2pt_mean_ENV = Re_2pt_mean[0,:,P_indx,12]
         Re_2pt_err_ENV = Re_2pt_err[0,:,P_indx,12]
-        ax.errorbar(np.asarray(range(ENV_stare, ENV_end+1, ENV_gap)), Re_2pt_mean_ENV, yerr=Re_2pt_err_ENV, alpha=0.5, marker = marker_array[P_indx], capsize=3.5, capthick=1.5, label='P=(%d,%d,%d)'%(P_array[P_indx,0],P_array[P_indx,1],P_array[P_indx,2]), linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(ENV_start, ENV_end+1, ENV_gap)), Re_2pt_mean_ENV, yerr=Re_2pt_err_ENV, alpha=0.5, marker = marker_array[P_indx], capsize=3.5, capthick=1.5, label='P=(%d,%d,%d)'%(P_array[P_indx,0],P_array[P_indx,1],P_array[P_indx,2]), linestyle='none',elinewidth=2) # fmt = 'bs'
     plt.legend()
     fig.savefig("%s/%s"%(save_path, 'meff_2pt_ENV.png'))
     fig, ax = plt.subplots(1,1, figsize=(20, 20*0.5))
@@ -188,7 +188,7 @@ if type == '3pt' or type == 'ratio':
         C2pt_ENV = C2pt_tsep / (ENV_array * Nt)
         C2pt_mean[t_sep_indx] = jackknife_ctr_err(C2pt_ENV)[0]
         C2pt_err[t_sep_indx] = jackknife_ctr_err(C2pt_ENV)[1]
-        ax.errorbar(np.asarray(range(ENV_stare, ENV_end+1, ENV_gap)), C2pt_mean[t_sep_indx], yerr=C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(ENV_start, ENV_end+1, ENV_gap)), C2pt_mean[t_sep_indx], yerr=C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
         plt.legend()
     fig.savefig("%s/%s"%(save_path, 'C_2pt_ENV.png'))
     # ENV_y: N_data-1, N_P, N_ENV, N_tsep, N_link
@@ -204,7 +204,7 @@ if type == '3pt' or type == 'ratio':
         ax.set_xlabel('%s'%('N_ENV'))
         ax.set_ylabel('%s'%('$C_{\mathrm{3pt}}$/$C_{\mathrm{2pt}}$')) # $E_{\mathrm{2pt}}$/Gev
         for t_sep_indx in range(N_tsep):
-            ax.errorbar(np.asarray(range(ENV_stare, ENV_end+1, ENV_gap)), ENV_y[data_indx,0,:,t_sep_indx,link_max].T, yerr=ENV_err[data_indx,0,:,t_sep_indx,link_max].T, alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+            ax.errorbar(np.asarray(range(ENV_start, ENV_end+1, ENV_gap)), ENV_y[data_indx,0,:,t_sep_indx,link_max].T, yerr=ENV_err[data_indx,0,:,t_sep_indx,link_max].T, alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='tsep%d'%(tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend(loc=2)
         fig.savefig("%s/%s"%(save_path, 'C_3pt_C_2pt_ENV_%s.png'%(flavour)))
     for data_indx in range(N_data-1):
@@ -227,7 +227,7 @@ if type == '3pt' or type == 'ratio':
             C3pt_mean[t_sep_indx] = jackknife_ctr_err(C3pt_ENV)[0]
             C3pt_err[t_sep_indx] = jackknife_ctr_err(C3pt_ENV)[1]
             
-            ax.errorbar(np.asarray(range(ENV_stare, ENV_end+1, ENV_gap)), C3pt_mean[t_sep_indx], yerr=C3pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(3,tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
+            ax.errorbar(np.asarray(range(ENV_start, ENV_end+1, ENV_gap)), C3pt_mean[t_sep_indx], yerr=C3pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(3,tsep_array[t_sep_indx]), linestyle='none',elinewidth=2) # fmt = 'bs'
             plt.legend()
             
         fig.savefig("%s/%s"%(save_path, 'C_3pt_ENV_%s.png'%(flavour)))
@@ -242,7 +242,7 @@ if type == '3pt' or type == 'ratio':
     for t_sep_indx in range(N_tsep*2):
         Cpt=3
         if t_sep_indx >=  N_tsep:Cpt=2
-        ax.errorbar(np.asarray(range(ENV_stare, ENV_end+1, ENV_gap)), together_C3pt_C2pt_mean[t_sep_indx], yerr=together_C3pt_C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(Cpt,tsep_array[(t_sep_indx)%N_tsep]),linestyle='none',elinewidth=2) # fmt = 'bs'
+        ax.errorbar(np.asarray(range(ENV_start, ENV_end+1, ENV_gap)), together_C3pt_C2pt_mean[t_sep_indx], yerr=together_C3pt_C2pt_err[t_sep_indx], alpha=0.5, marker = marker_array[t_sep_indx], capsize=3.5, capthick=1.5, label='C%dpt|tsep%d'%(Cpt,tsep_array[(t_sep_indx)%N_tsep]),linestyle='none',elinewidth=2) # fmt = 'bs'
         plt.legend()
         
     fig.savefig("%s/%s"%(save_path, 'C_3pt_C_2pt_ENV.png'))
