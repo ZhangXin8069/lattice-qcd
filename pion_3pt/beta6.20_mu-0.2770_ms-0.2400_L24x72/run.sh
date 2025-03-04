@@ -31,5 +31,5 @@ conf_type=beta6.20_mu-0.2770_ms-0.2400_L24x72
 xml=./xml/${hadron}_tsep${tsep}_mass${mass}_${conf}.xml
 echo "######INDEX:${index}~${hadron}_tsep${tsep}_mass${mass}_${conf} is running!!!#######"
 python3 ./main.py ${conf} >${xml}
-QUDA_ENABLE_TUNING=0 QUDA_RESOURCE_PATH=./resource mpirun -n 1 ${chroma} -geom 1 1 1 1 -i ${xml} >./log/${conf_type}_${conf} 2>&1
+QUDA_ENABLE_TUNING=1 QUDA_RESOURCE_PATH=./resource mpirun -n 1 ${chroma} -geom 1 1 1 1 -i ${xml} >./log/${conf_type}_${conf} 2>&1
 echo "######INDEX:${index}~${hadron}_tsep${tsep}_mass${mass}_${conf} is done!!!#######"

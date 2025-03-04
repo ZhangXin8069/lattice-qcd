@@ -374,13 +374,13 @@
       <qdp>0.1</qdp>
       <basePrecision>64</basePrecision>
     </code_version>
-    <run_date>04 Mar 25 20:19:03 CST</run_date>
+    <run_date>04 Mar 25 20:28:15 CST</run_date>
     <Setgeom>
       <latt_size>24 24 24 72</latt_size>
-      <logical_size>1 1 1 2</logical_size>
-      <subgrid_size>24 24 24 36</subgrid_size>
+      <logical_size>1 1 1 1</logical_size>
+      <subgrid_size>24 24 24 72</subgrid_size>
       <total_volume>995328</total_volume>
-      <subgrid_volume>497664</subgrid_volume>
+      <subgrid_volume>995328</subgrid_volume>
     </Setgeom>
   </ProgramInfo>
   <RNG>
@@ -2936,7 +2936,7 @@
     <w_plaq>0.535268291862184</w_plaq>
     <s_plaq>0.535108803000451</s_plaq>
     <t_plaq>0.535427780723917</t_plaq>
-    <plane_01_plaq>0.534962742829851</plane_01_plaq>
+    <plane_01_plaq>0.534962742829852</plane_01_plaq>
     <plane_02_plaq>0.535477799347861</plane_02_plaq>
     <plane_12_plaq>0.534885866823641</plane_12_plaq>
     <plane_03_plaq>0.535435671330583</plane_03_plaq>
@@ -2953,7 +2953,7 @@
         <im>0.000991675274831451</im>
       </elem>
       <elem>
-        <re>-0.000575677149129625</re>
+        <re>-0.000575677149129626</re>
         <im>-0.000708645214196734</im>
       </elem>
       <elem>
@@ -2962,7 +2962,8 @@
       </elem>
     </pollp>
   </Observables>
-  <InlineObservables>
+  <InlineObservabl
+  
     <elem>
       <make_source>
         <update_no>0</update_no>
@@ -2972,13 +2973,13 @@
             <qdp>0.1</qdp>
             <basePrecision>64</basePrecision>
           </code_version>
-          <run_date>04 Mar 25 20:19:05 CST</run_date>
+          <run_date>04 Mar 25 20:28:19 CST</run_date>
           <Setgeom>
             <latt_size>24 24 24 72</latt_size>
-            <logical_size>1 1 1 2</logical_size>
-            <subgrid_size>24 24 24 36</subgrid_size>
+            <logical_size>1 1 1 1</logical_size>
+            <subgrid_size>24 24 24 72</subgrid_size>
             <total_volume>995328</total_volume>
-            <subgrid_volume>497664</subgrid_volume>
+            <subgrid_volume>995328</subgrid_volume>
           </Setgeom>
         </ProgramInfo>
         <RNG>
@@ -5548,16 +5549,16 @@
           </Integrator>
         </MDIntegrator>
       </HMCTrj>
-    </Params>
+    </Params
 
-
+ 
 
         </Config_info>
         <Observables>
           <w_plaq>0.535268291862184</w_plaq>
           <s_plaq>0.535108803000451</s_plaq>
           <t_plaq>0.535427780723917</t_plaq>
-          <plane_01_plaq>0.534962742829851</plane_01_plaq>
+          <plane_01_plaq>0.534962742829852</plane_01_plaq>
           <plane_02_plaq>0.535477799347861</plane_02_plaq>
           <plane_12_plaq>0.534885866823641</plane_12_plaq>
           <plane_03_plaq>0.535435671330583</plane_03_plaq>
@@ -5574,7 +5575,7 @@
               <im>0.000991675274831451</im>
             </elem>
             <elem>
-              <re>-0.000575677149129625</re>
+              <re>-0.000575677149129626</re>
               <im>-0.000708645214196734</im>
             </elem>
             <elem>
@@ -5597,13 +5598,13 @@
             <qdp>0.1</qdp>
             <basePrecision>64</basePrecision>
           </code_version>
-          <run_date>04 Mar 25 20:19:06 CST</run_date>
+          <run_date>04 Mar 25 20:28:20 CST</run_date>
           <Setgeom>
             <latt_size>24 24 24 72</latt_size>
-            <logical_size>1 1 1 2</logical_size>
-            <subgrid_size>24 24 24 36</subgrid_size>
+            <logical_size>1 1 1 1</logical_size>
+            <subgrid_size>24 24 24 72</subgrid_size>
             <total_volume>995328</total_volume>
-            <subgrid_volume>497664</subgrid_volume>
+            <subgrid_volume>995328</subgrid_volume>
           </Setgeom>
         </ProgramInfo>
         <Input>
@@ -8223,9 +8224,9 @@
           </Integrator>
         </MDIntegrator>
       </HMCTrj>
-    </Params>
+    </Par
 
-
+    
 
         </Config_info>
         <Output_version>
@@ -8235,7 +8236,7 @@
           <w_plaq>0.535268291862184</w_plaq>
           <s_plaq>0.535108803000451</s_plaq>
           <t_plaq>0.535427780723917</t_plaq>
-          <plane_01_plaq>0.534962742829851</plane_01_plaq>
+          <plane_01_plaq>0.534962742829852</plane_01_plaq>
           <plane_02_plaq>0.535477799347861</plane_02_plaq>
           <plane_12_plaq>0.534885866823641</plane_12_plaq>
           <plane_03_plaq>0.535435671330583</plane_03_plaq>
@@ -8252,7 +8253,7 @@
               <im>0.000991675274831451</im>
             </elem>
             <elem>
-              <re>-0.000575677149129625</re>
+              <re>-0.000575677149129626</re>
               <im>-0.000708645214196734</im>
             </elem>
             <elem>
@@ -8262,7 +8263,7 @@
           </pollp>
         </Observables>
         <Source_file_info><make_source>
-      <id>799705146</id>
+      <id>799705700</id>
     </make_source>
 
         </Source_file_info>

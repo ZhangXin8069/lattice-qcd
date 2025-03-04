@@ -1,1 +1,2 @@
-slurmstepd: error: *** JOB 1444780 ON gpu024 CANCELLED AT 2025-03-04T20:23:31 ***
+slurmstepd: error: *** JOB 1444802 ON gpu024 CANCELLED AT 2025-03-04T20:28:35 ***
+slurmstepd: error: *** JOB 1444803 ON gpu024 CANCELLED AT 2025-03-04T20:28:35 ***
