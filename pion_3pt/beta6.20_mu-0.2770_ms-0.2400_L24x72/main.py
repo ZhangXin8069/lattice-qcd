@@ -9,7 +9,7 @@ chroma = creat_chroma_ini(
     hadron = hadron,
     conf_id = conf_id,
     conf_dir = '/public/group/lqcd/configurations/CLOVER/beta6.20_mu-0.2770_ms-0.2400_L24x72/beta6.20_mu-0.2770_ms-0.2400_L24x72_cfg_',
-    out_path = './',
+    out_path = './iog/',
 )
 if hadron == 'pion':
     hadron_list = 100001515
