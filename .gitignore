@@ -135,9 +135,9 @@ cython_debug/
 *input
 *output
 *result
-*new*
-*log*
-*iog*
+*new
+*log
+*iog
 *.npy
 *.dat
 *submit
