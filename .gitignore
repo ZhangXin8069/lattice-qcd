@@ -145,3 +145,4 @@ cython_debug/
 *xml
 *__pycache__
 !iog_reader
+!iog_reader/iog.so
