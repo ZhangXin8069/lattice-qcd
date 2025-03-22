@@ -138,12 +138,10 @@ cython_debug/
 *new*
 *log*
 *iog*
-!iog_reader
 *.npy
 *.dat
 *submit
 *multiprocess
 *xml
-*.xml
 *__pycache__
 !iog_reader
